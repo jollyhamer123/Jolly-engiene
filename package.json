@@ -1,0 +1,14 @@
+{
+  "name": "jolly-engine",
+  "version": "1.0.0",
+  "description": "Jolly Engine desktop browser with Jolly AI",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^35.0.0"
+  }
+}
