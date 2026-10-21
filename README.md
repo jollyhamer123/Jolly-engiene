@@ -64,3 +64,8 @@ An API key is not included. OpenAI API usage may cost money and is separate from
 - API keys entered in settings are saved in this app's local storage for convenience. Do not distribute a build containing personal API keys. For a public release, route AI and search requests through your own backend or use the operating system's secure credential store.
 - Do not disable Electron security protections to make arbitrary sites work.
 - Search-based answers use the retrieved result snippets as evidence; the assistant does not claim to have read every linked webpage unless that page text was actually supplied.
+
+
+## Deploying the website on Netlify
+
+The Netlify website uses `netlify/functions/search.js` for search. Commit that file with the rest of the project. In Netlify, set the publish directory to the folder containing `index.html` and ensure Netlify Functions are enabled (the default `netlify/functions` folder is detected automatically). For full web results, add `BRAVE_SEARCH_API_KEY` under **Site configuration → Environment variables**, then redeploy. Without a Brave key, the function uses DuckDuckGo Instant Answer, which may return only a limited number of results. Never put API keys directly in public source files.
