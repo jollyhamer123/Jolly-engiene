@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jolly Search Results</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      opacity: 0;
+      transform: translateY(8px);
+      filter: blur(2px);
+      transition: opacity 360ms ease, transform 360ms ease, filter 360ms ease;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    body.page-ready { opacity: 1; transform: translateY(0); filter: blur(0); }
+    body.page-leaving { opacity: 0; transform: translateY(-6px); filter: blur(3px); pointer-events: none; }
+    h1 {
+      font-size: 1.5rem;
+      animation: content-in 500ms cubic-bezier(.2,.75,.25,1) both;
+      color: #444;
+    }
+    .jolly-box {
+      background: #f0f8ff;
+      border: 2px solid #008080;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .jolly-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #008080;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #jolly-response {
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .jolly-box { animation: content-in 620ms 90ms cubic-bezier(.2,.75,.25,1) both; }
+    @keyframes content-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body, h1, .jolly-box { animation: none !important; transition: none !important; filter: none !important; transform: none !important; }
+    }
+
+    .browser-tabs {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; gap: 6px; min-height: 48px;
+      padding: 6px 10px; box-sizing: border-box;
+      background: #e7eeee; border-bottom: 1px solid #c7d5d5;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      overflow-x: auto; white-space: nowrap;
+    }
+    .browser-tab {
+      display: inline-flex; align-items: center; gap: 9px; max-width: 220px;
+      padding: 9px 10px; border-radius: 9px 9px 4px 4px;
+      background: #d4e1e1; color: #284646; border: 1px solid transparent;
+      cursor: pointer; font-size: 13px; flex: 0 1 auto; margin: 0;
+    }
+    .browser-tab.active { background: #fff; border-color: #c7d5d5; }
+    .browser-tab .tab-label { overflow: hidden; text-overflow: ellipsis; }
+    .browser-tab .tab-close { font-size: 16px; line-height: 12px; padding: 0 2px; border-radius: 4px; }
+    .browser-tab .tab-close:hover { background: #b9cccc; }
+    .new-tab {
+      flex: 0 0 auto; margin: 0 0 0 2px; padding: 7px 12px;
+      color: #285454; background: transparent; border-radius: 8px;
+      font-size: 20px; line-height: 18px;
+    }
+    .new-tab:hover { background: #cbdada; }
+    body { padding-top: 62px !important; }
+    @media (max-width: 520px) {
+      .browser-tabs { padding-left: 6px; padding-right: 6px; }
+      .browser-tab { max-width: 155px; padding: 8px; }
+    }
+
+    .browser-controls {
+      position: fixed; top: 48px; left: 0; right: 0; z-index: 999;
+      display: flex; align-items: center; gap: 8px; padding: 7px 12px;
+      box-sizing: border-box; background: #fff; border-bottom: 1px solid #d7e1e1;
+    }
+    .browser-control {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 32px; border: 0; border-radius: 8px;
+      background: #edf3f3; color: #285454; font-size: 18px; cursor: pointer;
+      flex: 0 0 auto; margin: 0;
+    }
+    .browser-control:hover { background: #dce9e9; }
+    .browser-address {
+      min-width: 0; flex: 1; border: 1px solid #d7e1e1; border-radius: 9px;
+      padding: 8px 11px; font-size: 12px; color: #536767; background: #f8fbfb;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    body { padding-top: 108px !important; }
+    @media (max-width: 520px) {
+      .browser-controls { gap: 6px; padding: 6px; }
+      .browser-control { width: 31px; height: 31px; }
+      .browser-address { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="browser-tabs" id="browser-tabs" aria-label="Website tabs">
+    <button class="browser-tab active" type="button" data-tab="0">
+      <span class="tab-label">Jolly Search</span><span class="tab-close" role="button" aria-label="Close tab">×</span>
+    </button>
+    <button class="new-tab" id="new-tab" type="button" aria-label="Add tab" title="Add tab">+</button>
+  </nav>
+
+  <div class="browser-controls" aria-label="Browser controls">
+    <button class="browser-control" id="browser-back" type="button" title="Back" aria-label="Back">‹</button>
+    <button class="browser-control" id="browser-forward" type="button" title="Forward" aria-label="Forward">›</button>
+    <button class="browser-control" id="browser-reload" type="button" title="Reload" aria-label="Reload">↻</button>
+    <button class="browser-control" id="browser-home" type="button" title="Home" aria-label="Home">⌂</button>
+    <div class="browser-address" id="browser-address">Jolly Search</div>
+  </div>
+
+
+
+  <h1 id="user-query">Searching...</h1>
+
+  <div class="jolly-box">
+    <div class="jolly-title">✨ Jolly's Answer</div>
+    <div id="jolly-response">Loading Jolly's cheerful insight...</div>
+  </div>
+
+  <script>
+    requestAnimationFrame(() => document.body.classList.add('page-ready'));
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+
+    if (query) {
+      document.getElementById('user-query').textContent = `Results for: "${query}"`;
+
+      fetch(`/.netlify/functions/ask?q=${encodeURIComponent(query)}`)
+        .then(res => {
+          if (!res.ok) throw new Error("Network response was not ok");
+          return res.json();
+        })
+        .then(data => {
+          document.getElementById('jolly-response').textContent = data.answer;
+        })
+        .catch(err => {
+          document.getElementById('jolly-response').textContent = "Oops! Jolly couldn't fetch an answer right now. Please try again later!";
+        });
+    } else {
+      document.getElementById('user-query').textContent = "No search query provided.";
+      document.getElementById('jolly-response').textContent = "Please return to the home page and enter a search query.";
+    }
+  </script>
+
+<script>
+
+    // Browser-style tabs within Jolly Search. Tabs persist while this browser session is open.
+    const TAB_KEY = 'jollySearchTabs_v1';
+    const currentUrl = window.location.pathname + window.location.search;
+    function readTabs() {
+      try { const parsed = JSON.parse(sessionStorage.getItem(TAB_KEY) || 'null'); if (Array.isArray(parsed) && parsed.length) return parsed; } catch (_) {}
+      return [{ url: '/index.html', label: 'Jolly Search' }];
+    }
+    let tabs = readTabs();
+    let activeIndex = Math.max(0, Math.min(Number(sessionStorage.getItem(TAB_KEY + '_active') || 0), tabs.length - 1));
+    const isResults = window.location.pathname.endsWith('results.html');
+    const labelForUrl = (url) => {
+      if (!url || url.includes('index.html') || url === '/') return 'Jolly Search';
+      const q = new URL(url, window.location.origin).searchParams.get('q');
+      return q ? (q.length > 22 ? q.slice(0, 22) + '…' : q) : 'Search results';
+    };
+    // Match the page currently loaded to the active tab after a search/navigation.
+    if (tabs[activeIndex]) {
+      tabs[activeIndex].url = currentUrl;
+      tabs[activeIndex].label = isResults ? labelForUrl(currentUrl) : 'Jolly Search';
+    }
+    function saveTabs() {
+      sessionStorage.setItem(TAB_KEY, JSON.stringify(tabs));
+      sessionStorage.setItem(TAB_KEY + '_active', String(activeIndex));
+    }
+    function renderTabs() {
+      const bar = document.getElementById('browser-tabs');
+      bar.querySelectorAll('.browser-tab').forEach(el => el.remove());
+      tabs.forEach((tab, i) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'browser-tab' + (i === activeIndex ? ' active' : '');
+        button.setAttribute('aria-label', 'Switch to ' + tab.label);
+        const label = document.createElement('span');
+        label.className = 'tab-label'; label.textContent = tab.label || 'Jolly Search';
+        const close = document.createElement('span');
+        close.className = 'tab-close'; close.textContent = '×'; close.setAttribute('role', 'button');
+        close.setAttribute('aria-label', 'Close tab');
+        close.addEventListener('click', (event) => {
+          event.stopPropagation();
+          if (tabs.length === 1) {
+            tabs[0] = { url: '/index.html', label: 'Jolly Search' }; activeIndex = 0; saveTabs();
+            window.location.href = '/index.html'; return;
+          }
+          tabs.splice(i, 1);
+          if (i < activeIndex) activeIndex--;
+          else if (i === activeIndex) activeIndex = Math.min(i, tabs.length - 1);
+          saveTabs();
+          window.location.href = tabs[activeIndex].url;
+        });
+        button.append(label, close);
+        button.addEventListener('click', () => {
+          if (i === activeIndex) return;
+          activeIndex = i; saveTabs(); window.location.href = tabs[i].url;
+        });
+        bar.insertBefore(button, document.getElementById('new-tab'));
+      });
+    }
+    document.getElementById('new-tab').addEventListener('click', () => {
+      tabs.push({ url: '/index.html', label: 'Jolly Search' });
+      activeIndex = tabs.length - 1; saveTabs(); window.location.href = '/index.html';
+    });
+    saveTabs();
+    renderTabs();
+
+  </script>
+<script>
+
+    // Lightweight browser controls for navigation within this website.
+    document.getElementById('browser-back').addEventListener('click', () => {
+      if (window.history.length > 1) window.history.back();
+      else window.location.href = '/index.html';
+    });
+    document.getElementById('browser-forward').addEventListener('click', () => window.history.forward());
+    document.getElementById('browser-reload').addEventListener('click', () => window.location.reload());
+    document.getElementById('browser-home').addEventListener('click', () => window.location.href = '/index.html');
+    const address = document.getElementById('browser-address');
+    if (address) {
+      const params = new URLSearchParams(window.location.search);
+      const query = params.get('q');
+      address.textContent = query ? 'Jolly Search  ·  ' + query : 'Jolly Search';
+      address.title = window.location.href;
+    }
+
+  </script>
+</body>
+</html>
