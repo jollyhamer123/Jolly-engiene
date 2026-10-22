@@ -21,6 +21,13 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  app.on('web-contents-created', (_event, contents) => {
+    if (contents.getType() !== 'webview') return;
+    contents.setWindowOpenHandler(({ url }) => {
+      if (/^https?:\/\//i.test(url)) contents.loadURL(url).catch(() => {});
+      return { action: 'deny' };
+    });
+  });
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

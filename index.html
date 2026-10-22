@@ -272,12 +272,12 @@ button:active:not(:disabled){transform:translateY(1px)}
           <p class="horoscopeFootnote">For fun and reflection. A new reading every day at midnight UTC.</p>
         </section>
       </div></div>
-      <aside id="dailyFact" hidden aria-live="polite"><div class="factHeading"><strong>A little discovery</strong><span id="factDate"></span></div><p id="factText"></p><a id="factSource" target="_blank" rel="noopener noreferrer" hidden>Read the source ↗</a><button class="pill" id="factRetry" hidden>Try again</button></aside>
+      <aside id="dailyFact" hidden aria-live="polite"><div class="factHeading"><strong>A little discovery</strong><span id="factDate"></span></div><p id="factText"></p><a id="factSource" target="_self" hidden>Read the source</a><button class="pill" id="factRetry" hidden>Try again</button></aside>
       <div id="status"></div>
     </section>
     <section id="aiPage"><div class="wrap"><button class="pageBack" id="backFromAI">← Back to Jolly</button><h2>Ask Jolly AI</h2><p style="color:var(--mute)">A fresh page for questions, explanations, and ideas.</p><form id="visionForm"><input id="visionQuestion" placeholder="Ask Jolly anything…" autocomplete="off"><button class="primary askbtn" type="submit">Ask Jolly</button></form><section class="visionCard"><div class="visionTitle">✦ Jolly Vision</div><div id="visionAnswer">Ask a question above to get your AI overview.</div><div id="visionSources"></div></section></div></section>
     <section id="results"><div class="wrap"><button class="pageBack" id="backFromResults">← Back to Jolly</button><h2 id="queryTitle">Search: get started</h2><nav class="searchTabs" role="tablist" aria-label="Search categories"><button id="tab-jolly" class="searchTab" role="tab" aria-selected="false" aria-controls="panel-jolly" tabindex="-1" data-search-tab="jolly">Jolly AI</button><button id="tab-all" class="searchTab" role="tab" aria-selected="true" aria-controls="panel-all" data-search-tab="all">All</button><button id="tab-images" class="searchTab" role="tab" aria-selected="false" aria-controls="panel-images" tabindex="-1" data-search-tab="images">Images</button></nav><div id="panel-jolly" class="searchPanel" role="tabpanel" aria-labelledby="tab-jolly" hidden><div id="searchAIHost"></div></div><div id="panel-images" class="searchPanel" role="tabpanel" aria-labelledby="tab-images" hidden><p id="imageNotice" role="status"></p><button id="imageRetry" class="pill" hidden>Try image search again</button><div id="imageGrid"></div></div><div id="panel-all" class="searchPanel" role="tabpanel" aria-labelledby="tab-all"><div id="notice">Search the web and select a result to open its source.</div><section id="aiCard"><div class="cardhead">Jolly AI answer</div><div id="aiAnswer"></div><div id="sources"></div></section><div id="resultList"><div class="emptyResults"><strong>Your search results will appear here</strong><p>Type a question or website in the search bar above to get started.</p></div></div></div></div></section>
-    <webview id="page" title="Webpage" partition="persist:jolly-pages" allowpopups></webview>
+    <webview id="page" title="Webpage" partition="persist:jolly-pages"></webview>
   </div>
 </div>
 </div>
@@ -285,6 +285,12 @@ button:active:not(:disabled){transform:translateY(1px)}
 <script src="horoscopes.js"></script>
 <script>
 const $=id=>document.getElementById(id);
+// Keep the desktop webview; browsers use a frame inside the same app shell.
+if(!window.jolly){
+  const frame=document.createElement('iframe');frame.id='page';frame.title='Webpage';
+  frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms');
+  frame.referrerPolicy='no-referrer';$('page').replaceWith(frame);
+}
 const state={view:'home',url:'',title:'New tab',history:[],historyIndex:-1,bookmarks:[],searchResults:[],lastQuery:''};
 let tabs=[],activeTab=0,viewRevision=0;
 try{localStorage.removeItem('jolly-config')}catch{}
@@ -323,7 +329,7 @@ async function loadImages(){
     $('imageNotice').textContent=[results.length?'Images from '+data.provider+'.':'No images found. Try a different search.',data.warning||'','Open an image to view its source and usage rights.'].join(' ');
     for(const item of results){
       if(!/^https?:\/\//i.test(item.url)||!/^https?:\/\//i.test(item.thumbnail))continue;
-      const link=document.createElement('a');link.className='imageResult';link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
+      const link=document.createElement('a');link.className='imageResult';link.href=item.url;link.target='_self';link.dataset.navigate=item.url;
       const image=document.createElement('img');image.src=item.thumbnail;image.alt=item.title||'Image result';image.loading='lazy';image.referrerPolicy='no-referrer';image.onerror=()=>{image.hidden=true};
       const title=document.createElement('strong');title.textContent=item.title||'Image';const source=document.createElement('small');source.textContent=item.source||new URL(item.url).hostname;link.append(image,title,source);$('imageGrid').append(link);
     }
@@ -389,17 +395,19 @@ function showHome(){viewRevision++;state.url='';state.view='home';$('views').cla
 function showSearchPage(){setHoroscopeOpen(false);document.querySelector('.searchTabs').hidden=state.view!=='results';if(state.view!=='results')selectSearchTab('all',false); $('views').className='view-results'; $('home').style.display='none'; $('results').style.display='block'; $('aiPage').style.display='none'; $('page').style.display='none';animateReveal($('results'));  }
 function showAIPage(){setHoroscopeOpen(false);state.view='ai';$('views').className='view-ai';$('home').style.display='none';$('results').style.display='none';$('aiPage').style.display='block';$('page').style.display='none';$('visionQuestion').focus();animateReveal($('aiPage'))}
 
-function navigate(url,push=true,openExternal=true){
+function navigate(url,push=true){
   setHoroscopeOpen(false);
-  const valid=cleanUrl(url);if(!valid){runSearch(url);return}
+  let valid;try{const parsed=new URL(url,document.baseURI);if(!['https:','http:'].includes(parsed.protocol))return;valid=parsed.href}catch{return}
   if(push)recordVisit('page',valid,valid);
-  if (!window.jolly && !$('page').loadURL) {
-    viewRevision++;state.view='page';state.url=valid;state.title=valid;showSearchPage();$('url').value=valid;$('queryTitle').textContent=valid;$('notice').textContent='This website opens in a separate browser tab. You can bookmark it here.';$('aiCard').style.display='none';$('resultList').innerHTML='';const link=document.createElement('a');link.href=valid;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Open website';$('resultList').append(link);if(openExternal)window.open(valid,'_blank','noopener,noreferrer');saveTab();renderTabs();return;
-  }
   viewRevision++;state.view='page';state.url=valid;state.title=valid;
-  $('home').style.display='none';$('results').style.display='none';$('page').style.display='block';$('page').loadURL(valid).catch(()=>{});$('url').value=valid;
+  $('views').className='view-page';
+  $('home').style.display='none';$('results').style.display='none';$('aiPage').style.display='none';$('page').style.display='block';
+  setStatus(window.jolly?'':'Some websites do not allow embedded viewing. Use Back to return to your results.');
+  if(typeof $('page').loadURL==='function')$('page').loadURL(valid).catch(()=>{});
+  else $('page').src=valid;
+  $('url').value=valid;
   if(push){state.history=state.history.slice(0,state.historyIndex+1);state.history.push(valid);state.historyIndex=state.history.length-1}
-  renderTabs();$('bookmark').textContent=state.bookmarks.includes(valid)?'★':'☆';
+  saveTab();renderTabs();$('bookmark').textContent=state.bookmarks.includes(valid)?'★':'☆';
 }
 function go(input){const s=input.trim();if(!s)return;const u=cleanUrl(s);if(u)navigate(u);else runSearch(s)}
 async function runSearch(query,withAI=false){
@@ -427,12 +435,12 @@ async function runSearch(query,withAI=false){
   if(!state.searchResults.length && !result.error){const p=document.createElement('p');p.textContent='No results came back. Try another search or open full Google Search below.';list.append(p)}
   for(const r of state.searchResults){
     const el=document.createElement('article');el.className='result';
-    const a=document.createElement('a');a.href=r.url;a.dataset.navigate=r.url;a.textContent=r.title||r.url;
+    const a=document.createElement('a');a.href=r.url;a.target='_self';a.dataset.navigate=r.url;a.textContent=r.title||r.url;
     const u=document.createElement('div');u.className='url';u.textContent=r.url;
     const p=document.createElement('p');p.textContent=r.snippet||'';
     el.append(a,u,p);list.append(el)
   }
-  const links=document.createElement('p');links.innerHTML='';const google=document.createElement('a');google.href=searchUrl(query);google.dataset.navigate=searchUrl(query);google.textContent='Open full Google Search';list.append(google);
+  const links=document.createElement('p');links.innerHTML='';const google=document.createElement('a');google.href=searchUrl(query);google.target='_self';google.dataset.navigate=searchUrl(query);google.textContent='Open full Google Search';list.append(google);
   // Show a Jolly Vision overview at the top of every search results page.
   {
     $('aiCard').style.display='block';$('aiCard').style.borderColor='var(--line)';$('aiCard').querySelector('.cardhead').textContent='✦ Jolly Vision overview';$('aiAnswer').textContent='Creating an AI overview';$('aiAnswer').classList.add('loadingDots');
@@ -440,7 +448,7 @@ async function runSearch(query,withAI=false){
     catch(e){if(revision===viewRevision)$('aiAnswer').textContent=e.message;}
     finally{if(revision===viewRevision)$('aiAnswer').classList.remove('loadingDots')}
     if(revision!==viewRevision)return;
-    $('sources').innerHTML='';state.searchResults.slice(0,4).forEach((r,i)=>{const a=document.createElement('a');a.className='source';a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='['+(i+1)+'] '+(r.title||r.url);$('sources').append(a)});
+    $('sources').innerHTML='';state.searchResults.slice(0,4).forEach((r,i)=>{const a=document.createElement('a');a.className='source';a.href=r.url;a.target='_self';a.dataset.navigate=r.url;a.textContent='['+(i+1)+'] '+(r.title||r.url);$('sources').append(a)});
   }
   if(revision!==viewRevision)return;saveTab();if(withAI)await askVision(query);
 }
@@ -462,7 +470,8 @@ $('url').onkeydown=e=>{if(e.key==='Enter')go($('url').value)};
 $('jollyBtn').onclick=()=>askVision($('hq').value.trim()||'What can you help me with?');
 $('back').onclick=()=>moveBack(-1);
 $('forward').onclick=()=>moveBack(1);
-$('reload').onclick=()=>state.view==='page'?$('page').reload():state.view==='results'?runSearch(state.lastQuery):state.view==='ai'?askVision($('visionQuestion').value):showHome();
+function reloadPage(){if(typeof $('page').reload==='function')$('page').reload();else $('page').src=state.url}
+$('reload').onclick=()=>state.view==='page'?reloadPage():state.view==='results'?runSearch(state.lastQuery):state.view==='ai'?askVision($('visionQuestion').value):showHome();
 $('newTab').onclick=newTab;
 $('bookmark').onclick=async()=>{
   const item=currentEntry();if(item.view==='home')return;
@@ -470,14 +479,14 @@ $('bookmark').onclick=async()=>{
 };
 $('page').addEventListener('did-navigate',e=>{state.url=e.url;$('url').value=e.url;$('bookmark').textContent=state.bookmarks.includes(e.url)?'★':'☆';});
 $('page').addEventListener('page-title-updated',e=>{state.title=e.title;const t=tabs[activeTab];if(t)t.title=e.title;renderTabs();});
-$('page').addEventListener('did-fail-load',e=>{if(e.errorCode!==-3)setStatus(`This page could not load (${e.errorDescription||e.errorCode}). You can try opening it externally.`);});
+$('page').addEventListener('did-fail-load',e=>{if(e.errorCode!==-3)setStatus(`This page could not load (${e.errorDescription||e.errorCode}). Use Back to return to your results.`);});
 document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const q=b.dataset.q;$('hq').value=q;runSearch(q,true)});
 function currentEntry(){const view=state.view;const value=view==='results'?state.lastQuery:view==='ai'?$('visionQuestion').value:state.url;return {view,value,title:view==='results'?'Search: '+value:view==='ai'?'AI: '+value:view==='page'?(state.title||value):'New tab'}}
 function saveTab(){const t=tabs[activeTab];if(!t)return;t.searchMode=searchMode;t.images=$('imageGrid').innerHTML;t.imageNotice=$('imageNotice').textContent;t.imagesLoaded=imagesLoaded;t.entry=currentEntry();t.results=$('resultList').innerHTML;t.notice=$('notice').textContent;t.searchResults=state.searchResults;t.aiCard=$('aiCard').innerHTML;t.aiVisible=$('aiCard').style.display;t.answer=$('visionAnswer').textContent;t.sources=$('visionSources').innerHTML}
 function restoreEntry(entry){if(entry.view==='results')runSearch(entry.value);else if(entry.view==='ai')askVision(entry.value);else if(entry.view==='page')navigate(entry.value);else showHome()}
 function newTab(){saveTab();tabs.push({entry:{view:'home',value:'',title:'New tab'},trail:[],position:-1});activeTab=tabs.length-1;showHome();saveTab();renderTabs()}
 function switchTab(i){if(i===activeTab)return;saveTab();viewRevision++;activeTab=i;const t=tabs[i],e=t.entry;state.view=e.view;state.url=e.view==='page'?e.value:'';state.lastQuery=e.view==='results'?e.value:'';state.searchResults=t.searchResults||[];
-  if(e.view==='home')showHome();else if(e.view==='results'){showSearchPage();imageRevision++;imageLoading=false;imagesLoaded=!!t.imagesLoaded;$('imageGrid').innerHTML=t.images||'';$('imageNotice').textContent=t.imageNotice||'';$('imageRetry').hidden=imagesLoaded;selectSearchTab(t.searchMode||'all',false);$('queryTitle').textContent=e.title;$('resultList').innerHTML=t.results||'';$('notice').textContent=t.notice==='Searching the web…'?'Search was interrupted. Reload to try again.':t.notice||'';$('aiCard').innerHTML=t.aiCard||$('aiCard').innerHTML;$('aiCard').style.display=t.aiVisible||'none';$('aiAnswer').classList.remove('loadingDots');if($('aiAnswer').textContent==='Creating an AI overview')$('aiAnswer').textContent='Reload to create an AI overview.'}else if(e.view==='ai'){showAIPage();$('visionQuestion').value=e.value;$('visionAnswer').textContent=t.answer==='Thinking'?'Submit your question again to continue.':t.answer||'';$('visionAnswer').classList.remove('loadingDots');$('visionSources').innerHTML=t.sources||''}else navigate(e.value,false,false);
+  if(e.view==='home')showHome();else if(e.view==='results'){showSearchPage();imageRevision++;imageLoading=false;imagesLoaded=!!t.imagesLoaded;$('imageGrid').innerHTML=t.images||'';$('imageNotice').textContent=t.imageNotice||'';$('imageRetry').hidden=imagesLoaded;selectSearchTab(t.searchMode||'all',false);$('queryTitle').textContent=e.title;$('resultList').innerHTML=t.results||'';$('notice').textContent=t.notice==='Searching the web…'?'Search was interrupted. Reload to try again.':t.notice||'';$('aiCard').innerHTML=t.aiCard||$('aiCard').innerHTML;$('aiCard').style.display=t.aiVisible||'none';$('aiAnswer').classList.remove('loadingDots');if($('aiAnswer').textContent==='Creating an AI overview')$('aiAnswer').textContent='Reload to create an AI overview.'}else if(e.view==='ai'){showAIPage();$('visionQuestion').value=e.value;$('visionAnswer').textContent=t.answer==='Thinking'?'Submit your question again to continue.':t.answer||'';$('visionAnswer').classList.remove('loadingDots');$('visionSources').innerHTML=t.sources||''}else navigate(e.value,false);
   $('url').value=e.value;renderTabs()
 }
 function closeTab(i){if(i!==activeTab){tabs.splice(i,1);if(i<activeTab)activeTab--;renderTabs();return}saveTab();tabs.splice(i,1);if(!tabs.length){activeTab=-1;newTab();return}activeTab=-1;switchTab(Math.min(i,tabs.length-1))}
@@ -490,7 +499,7 @@ function libraryRequest(kind,method='GET',body,id){const task=async()=>{const ur
 let libraryKind='history',libraryRevision=0;
 async function showLibrary(kind){libraryKind=kind;const revision=++libraryRevision;$('libraryTitle').textContent=kind==='history'?'History':'Bookmarks';$('clearHistory').hidden=kind!=='history';if(!$('libraryDialog').open)$('libraryDialog').showModal();const host=$('libraryItems');host.textContent='Loading…';try{const data=await libraryRequest(kind);if(revision!==libraryRevision)return;host.innerHTML='';if(!data.items.length)host.textContent=kind==='history'?'Your searches, AI questions, and opened links appear here.':'Use the star button to save a search, AI question, or webpage.';for(const item of data.items){const row=document.createElement('div');row.className='savedRow';const open=document.createElement('button');open.className='savedOpen';open.textContent=item.title;open.onclick=()=>{$('libraryDialog').close();restoreEntry(item)};const date=document.createElement('span');date.className='savedDate';date.textContent=new Date(item.createdAt).toLocaleDateString();const remove=document.createElement('button');remove.className='savedRemove';remove.textContent='Remove';remove.onclick=async()=>{remove.disabled=true;try{await libraryRequest(kind,'DELETE',null,item.id);showLibrary(kind)}catch(e){remove.disabled=false;host.textContent=e.message}};row.append(open,date,remove);host.append(row)}}catch(e){if(revision===libraryRevision)host.textContent=e.message}}
 $('addTab').onclick=newTab;$('historyBtn').onclick=()=>showLibrary('history');$('bookmarksBtn').onclick=()=>showLibrary('bookmark');$('closeLibrary').onclick=()=>$('libraryDialog').close();$('clearHistory').onclick=async()=>{try{await libraryRequest('history','DELETE');showLibrary('history')}catch(e){$('libraryItems').textContent=e.message}};
-$('views').addEventListener('click',e=>{const link=e.target.closest('a[data-navigate]');if(link){e.preventDefault();navigate(link.dataset.navigate)}});
+$('views').addEventListener('click',e=>{const link=e.target.closest('a[href]');if(link){e.preventDefault();navigate(link.href)}});
 newTab();
 </script>
 </body>
