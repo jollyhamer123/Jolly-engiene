@@ -1,8 +1,6 @@
 const { app, BrowserWindow, ipcMain, shell, session } = require('electron');
 const path = require('node:path');
 
-const SEARCH_API = 'https://api.search.brave.com/res/v1/web/search';
-
 function createWindow() {
   const win = new BrowserWindow({
     width: 1440,
@@ -32,70 +30,23 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-ipcMain.handle('jolly:search', async (_event, payload) => {
-  const query = typeof payload === 'string' ? payload : payload?.query;
-  const suppliedKey = typeof payload === 'object' ? String(payload?.apiKey || '') : '';
-  const q = String(query || '').trim().slice(0, 500);
-  if (!q) return { results: [], error: 'Enter something to search.' };
-
-  // Brave Search API returns real web results. If no key is configured, use
-  // DuckDuckGo's public instant-answer endpoint as a limited fallback.
-  const braveKey = suppliedKey || process.env.BRAVE_SEARCH_API_KEY;
-  if (braveKey) {
-    try {
-      const url = new URL(SEARCH_API);
-      url.searchParams.set('q', q);
-      url.searchParams.set('count', '10');
-      const response = await fetch(url, {
-        headers: { 'Accept': 'application/json', 'X-Subscription-Token': braveKey }
-      });
-      if (!response.ok) throw new Error(`Brave Search returned HTTP ${response.status}`);
-      const data = await response.json();
-      const results = (data.web?.results || []).map(r => ({
-        title: r.title || r.url,
-        url: r.url,
-        snippet: r.description || ''
-      })).filter(r => r.url);
-      return { results, provider: 'Brave Search' };
-    } catch (e) {
-      return { results: [], error: `Web search failed: ${e.message}. Check BRAVE_SEARCH_API_KEY.` };
-    }
-  }
-
+// Website and desktop share the same search service and private server credential.
+ipcMain.handle('jolly:search', async (_event, payload = {}) => {
+  const query = String(typeof payload === 'string' ? payload : payload.query || '').trim().slice(0, 500);
+  if (!query) return { results: [], error: 'Enter something to search.' };
   try {
-    const url = new URL('https://api.duckduckgo.com/');
-    url.searchParams.set('q', q);
-    url.searchParams.set('format', 'json');
-    url.searchParams.set('no_html', '1');
-    url.searchParams.set('skip_disambig', '1');
-    const response = await fetch(url, { headers: { 'User-Agent': 'JollyEngine/1.0' } });
-    if (!response.ok) throw new Error(`DuckDuckGo returned HTTP ${response.status}`);
-    const data = await response.json();
-    const results = [];
-    if (data.AbstractURL) results.push({
-      title: data.Heading || q, url: data.AbstractURL,
-      snippet: data.AbstractText || 'Instant answer'
-    });
-    for (const topic of (data.RelatedTopics || [])) {
-      if (topic.Text && topic.FirstURL) {
-        results.push({ title: topic.Text.split(' - ')[0], url: topic.FirstURL, snippet: topic.Text });
-      } else if (topic.Topics) {
-        for (const sub of topic.Topics) {
-          if (sub.Text && sub.FirstURL) results.push({
-            title: sub.Text.split(' - ')[0], url: sub.FirstURL, snippet: sub.Text
-          });
-        }
-      }
-    }
-    return {
-      results: results.slice(0, 10),
-      provider: 'DuckDuckGo Instant Answer',
-      error: results.length ? null :
-        'DuckDuckGo instant answers did not return general web listings. Add a Brave Search API key for full web search, or use the Google Search link below.'
-    };
-  } catch (e) {
-    return { results: [], error: `Search request failed: ${e.message}` };
-  }
+    const response = await fetch('https://jollynet.netlify.app/.netlify/functions/search?query=' + encodeURIComponent(query) + (payload.type === 'images' ? '&type=images' : ''), { signal: AbortSignal.timeout(25000) });
+    if (!(response.headers.get('content-type') || '').includes('application/json')) return { results: [], error: 'Search is unavailable. Reload the website and check site visitor access.' };
+    return await response.json();
+  } catch { return { results: [], error: 'Search could not connect. Please try again.' }; }
+});
+
+ipcMain.handle('jolly:fact', async () => {
+  try {
+    const response = await fetch('https://jollynet.netlify.app/.netlify/functions/fact', { signal: AbortSignal.timeout(15000) });
+    if (!response.ok) return { error: 'Today’s fun fact is unavailable. Please try again.' };
+    return await response.json();
+  } catch { return { error: 'Today’s fun fact could not connect. Please try again.' }; }
 });
 
 // Desktop users share the same server-side AI credentials as website visitors.

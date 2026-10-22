@@ -191,6 +191,55 @@ button.askbtn,#jollyBtn{background:var(--red);color:white;border-color:var(--red
 #clearHistory{margin-top:16px}
 #page{z-index:1}
 @media(max-width:600px){#tabBar{flex-wrap:wrap}#openTabs{flex-basis:80%}.libraryActions{margin-left:auto}#miniLogo{display:none}#bar{gap:6px}#headerActions{order:3}#topSearchWrap{order:2;flex-basis:75%}#visionForm{flex-wrap:wrap}}
+#dailyFact{width:min(650px,100%);box-sizing:border-box;margin:18px auto 0;padding:18px 22px;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:16px;text-align:left;background:var(--bg)}
+#dailyFact[hidden]{display:none}
+.factHeading{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--mute);font-size:12px;letter-spacing:.07em;text-transform:uppercase}
+#factText{line-height:1.7;margin:12px 0}
+#factSource{font-size:13px;color:var(--blue)}
+#factRetry{margin-top:8px}
+.searchTabs[hidden]{display:none}.searchTabs{display:flex;gap:10px;margin:0 0 22px;flex-wrap:wrap}
+.searchTab{border:2px solid transparent;border-radius:12px;padding:11px 22px;font-weight:800;transition:transform .15s,box-shadow .15s}
+#tab-jolly{background:var(--blue);color:white}#tab-all{background:var(--yellow);color:var(--ink)}#tab-images{background:var(--red);color:white}
+.searchTab[aria-selected="true"]{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.searchTab:hover{transform:translateY(-2px)}
+.searchPanel[hidden]{display:none!important}
+#imageGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:18px}
+.imageResult{display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);background:var(--soft)}
+.imageResult img{display:block;width:100%;height:170px;object-fit:cover;background:var(--soft)}
+.imageResult strong,.imageResult small{display:block;padding:10px 12px 0;overflow-wrap:anywhere;font-size:13px}
+.imageResult small{padding-top:5px;padding-bottom:12px;color:var(--mute);font-size:11px}
+.imageResult:hover{border-color:var(--red)}
+#imageNotice{font-size:13px;color:var(--mute);margin:0 0 18px;line-height:1.6}
+#imageRetry{margin-bottom:18px;background:var(--yellow);color:var(--ink)}
+#funFact,#quick .pill:nth-child(3n+2){background:var(--yellow);color:var(--ink);border-color:transparent}
+#quick .pill:nth-child(3n+1){background:var(--blue);color:white;border-color:transparent}
+#quick .pill:nth-child(3n){background:var(--red);color:white;border-color:transparent}
+/* Gentle movement across navigation, controls, and daily discoveries. */
+button,a,input,select{transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease,filter .2s ease,transform .2s ease}
+button:active:not(:disabled){transform:translateY(1px)}
+#home,.searchPanel:not([hidden]),#dailyFact:not([hidden]){animation:pageIn .32s cubic-bezier(.2,.7,.2,1) both}
+.imageResult:hover{transform:translateY(-3px);box-shadow:0 10px 22px #11111412}
+.dailyOptions{display:flex;gap:10px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+#horoscopeControl{position:relative}
+#horoscopesBtn{background:var(--red);border-color:var(--red);color:white;display:flex;align-items:center;gap:12px}
+.disclosureArrow{display:inline-block;transition:transform .22s ease}
+#horoscopesBtn[aria-expanded="true"] .disclosureArrow{transform:rotate(180deg)}
+#horoscopeDropdown{position:absolute;top:calc(100% + 12px);right:0;z-index:5;width:min(380px,calc(100vw - 48px));max-height:65vh;overflow:auto;padding:22px;text-align:left;background:var(--bg);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:16px;box-shadow:0 18px 48px #11111422;transform-origin:top right}
+#horoscopeDropdown[hidden],#horoscopeReading[hidden]{display:none}
+.horoscopeEyebrow{color:var(--red);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;margin-bottom:15px}
+#horoscopeDropdown label{display:block;font-size:17px;font-weight:800;margin-bottom:10px}
+#zodiacSign{width:100%;border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:12px;color:var(--ink);font-size:14px}
+.horoscopeHint,.horoscopeFootnote{color:var(--mute);font-size:11px;line-height:1.6;margin:10px 0 0}
+.horoscopeFootnote{border-top:1px solid var(--line);padding-top:12px;margin-top:18px}
+#horoscopeReading{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+.horoscopeMeta{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.horoscopeMeta h3{font-size:24px;letter-spacing:-.04em;margin:0}
+#horoscopeDate{color:var(--mute);font-size:12px;white-space:nowrap}
+#horoscopeTraits{color:var(--mute);font-size:13px;margin:6px 0 16px}
+#horoscopeFocus{color:var(--blue);font-size:13px}
+#horoscopeText{line-height:1.75;font-size:14px;margin-bottom:0}
+@media(max-width:480px){#horoscopeDropdown{position:fixed;top:auto;left:24px;right:24px;width:auto;max-height:55vh;margin-top:12px;transform-origin:top center}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
@@ -213,15 +262,27 @@ button.askbtn,#jollyBtn{background:var(--red);color:white;border-color:var(--red
       <div class="tagline">Jolly Engine · Search the web. Ask anything.</div>
       <div id="searchbox"><input id="hq" placeholder="Ask anything or search for a website..." autocomplete="off" spellcheck="false"><button id="webSearch" class="primary">Search</button><button id="askHomeAI" class="primary askbtn">Ask AI</button></div>
       <div id="quick"><button class="pill" data-q="latest science discoveries">Science</button><button class="pill" data-q="world news today">World news</button><button class="pill" data-q="how does artificial intelligence work">How AI works</button><button class="pill" data-q="learn something new">Learning</button></div>
+      <div class="dailyOptions"><button class="pill" id="funFact" aria-expanded="false" aria-controls="dailyFact">Fun fact of the day</button><div id="horoscopeControl"><button class="pill" id="horoscopesBtn" aria-expanded="false" aria-controls="horoscopeDropdown">Horoscopes <span class="disclosureArrow" aria-hidden="true">⌄</span></button>
+        <section id="horoscopeDropdown" aria-labelledby="horoscopesBtn" hidden>
+          <div class="horoscopeEyebrow">Chinese zodiac · A daily moment</div>
+          <label for="zodiacSign">Choose your sign</label>
+          <select id="zodiacSign"><option value="">Select a Chinese zodiac sign</option></select>
+          <p class="horoscopeHint">Chinese zodiac years begin at Lunar New Year, rather than January 1.</p>
+          <article id="horoscopeReading" aria-live="polite" hidden><div class="horoscopeMeta"><h3 id="horoscopeSign"></h3><time id="horoscopeDate"></time></div><p id="horoscopeTraits"></p><strong id="horoscopeFocus"></strong><p id="horoscopeText"></p></article>
+          <p class="horoscopeFootnote">For fun and reflection. A new reading every day at midnight UTC.</p>
+        </section>
+      </div></div>
+      <aside id="dailyFact" hidden aria-live="polite"><div class="factHeading"><strong>A little discovery</strong><span id="factDate"></span></div><p id="factText"></p><a id="factSource" target="_blank" rel="noopener noreferrer" hidden>Read the source ↗</a><button class="pill" id="factRetry" hidden>Try again</button></aside>
       <div id="status"></div>
     </section>
     <section id="aiPage"><div class="wrap"><button class="pageBack" id="backFromAI">← Back to Jolly</button><h2>Ask Jolly AI</h2><p style="color:var(--mute)">A fresh page for questions, explanations, and ideas.</p><form id="visionForm"><input id="visionQuestion" placeholder="Ask Jolly anything…" autocomplete="off"><button class="primary askbtn" type="submit">Ask Jolly</button></form><section class="visionCard"><div class="visionTitle">✦ Jolly Vision</div><div id="visionAnswer">Ask a question above to get your AI overview.</div><div id="visionSources"></div></section></div></section>
-    <section id="results"><div class="wrap"><button class="pageBack" id="backFromResults">← Back to Jolly</button><h2 id="queryTitle">Search: get started</h2><div id="notice">Search the web and select a result to open its source.</div><section id="aiCard"><div class="cardhead">Jolly AI answer</div><div id="aiAnswer"></div><div id="sources"></div></section><div id="resultList"><div class="emptyResults"><strong>Your search results will appear here</strong><p>Type a question or website in the search bar above to get started.</p></div></div></div></section>
+    <section id="results"><div class="wrap"><button class="pageBack" id="backFromResults">← Back to Jolly</button><h2 id="queryTitle">Search: get started</h2><nav class="searchTabs" role="tablist" aria-label="Search categories"><button id="tab-jolly" class="searchTab" role="tab" aria-selected="false" aria-controls="panel-jolly" tabindex="-1" data-search-tab="jolly">Jolly AI</button><button id="tab-all" class="searchTab" role="tab" aria-selected="true" aria-controls="panel-all" data-search-tab="all">All</button><button id="tab-images" class="searchTab" role="tab" aria-selected="false" aria-controls="panel-images" tabindex="-1" data-search-tab="images">Images</button></nav><div id="panel-jolly" class="searchPanel" role="tabpanel" aria-labelledby="tab-jolly" hidden><div id="searchAIHost"></div></div><div id="panel-images" class="searchPanel" role="tabpanel" aria-labelledby="tab-images" hidden><p id="imageNotice" role="status"></p><button id="imageRetry" class="pill" hidden>Try image search again</button><div id="imageGrid"></div></div><div id="panel-all" class="searchPanel" role="tabpanel" aria-labelledby="tab-all"><div id="notice">Search the web and select a result to open its source.</div><section id="aiCard"><div class="cardhead">Jolly AI answer</div><div id="aiAnswer"></div><div id="sources"></div></section><div id="resultList"><div class="emptyResults"><strong>Your search results will appear here</strong><p>Type a question or website in the search bar above to get started.</p></div></div></div></div></section>
     <webview id="page" title="Webpage" partition="persist:jolly-pages" allowpopups></webview>
   </div>
 </div>
 </div>
 <dialog id="libraryDialog"><div class="libraryHead"><h2 id="libraryTitle">History</h2><button id="closeLibrary" aria-label="Close saved items">×</button></div><p class="libraryHint">Private to this browser. Clearing cookies removes access to your saved items.</p><div id="libraryItems" aria-live="polite"></div><button id="clearHistory">Clear history</button></dialog>
+<script src="horoscopes.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const state={view:'home',url:'',title:'New tab',history:[],historyIndex:-1,bookmarks:[],searchResults:[],lastQuery:''};
@@ -237,14 +298,99 @@ async function requestAI(payload){
   if(!response.ok)throw new Error(data.error||'Jolly AI is temporarily unavailable. Please try again.');
   return data;
 }
+$('searchAIHost').append($('aiCard'));
+let searchMode='all',imagesLoaded=false,imageLoading=false,imageRevision=0;
+function selectSearchTab(mode,load=true){
+  searchMode=mode;
+  if(mode!=='images'||imagesLoaded)animateReveal($('panel-'+mode));
+  for(const name of ['jolly','all','images']){const selected=name===mode;$('tab-'+name).setAttribute('aria-selected',String(selected));$('tab-'+name).tabIndex=selected?0:-1;$('panel-'+name).hidden=!selected}
+  if(mode==='images'&&load&&!imagesLoaded&&!imageLoading)loadImages();
+}
+document.querySelectorAll('[data-search-tab]').forEach(button=>{
+  button.onclick=()=>{selectSearchTab(button.dataset.searchTab);saveTab()};
+  button.onkeydown=e=>{const names=['jolly','all','images'];let index=names.indexOf(button.dataset.searchTab);if(e.key==='ArrowRight')index=(index+1)%3;else if(e.key==='ArrowLeft')index=(index+2)%3;else if(e.key==='Home')index=0;else if(e.key==='End')index=2;else return;e.preventDefault();selectSearchTab(names[index]);saveTab();$('tab-'+names[index]).focus()};
+});
+async function loadImages(){
+  if(!state.lastQuery)return;
+  const revision=++imageRevision,view=viewRevision,query=state.lastQuery;imageLoading=true;$('imageGrid').innerHTML='';$('imageNotice').textContent='Searching for images…';$('imageRetry').hidden=true;
+  try{
+    let data;
+    if(window.jolly?.search)data=await window.jolly.search({query,type:'images'});
+    else{const response=await fetch('/.netlify/functions/search?type=images&query='+encodeURIComponent(query),{signal:AbortSignal.timeout(25000)});data=await response.json();if(!response.ok)throw new Error(data.error||'Image search is unavailable.')}
+    if(revision!==imageRevision||view!==viewRevision)return;
+    if(data.error)throw new Error(data.error);
+    const results=data.results||[];imagesLoaded=true;
+    $('imageNotice').textContent=[results.length?'Images from '+data.provider+'.':'No images found. Try a different search.',data.warning||'','Open an image to view its source and usage rights.'].join(' ');
+    for(const item of results){
+      if(!/^https?:\/\//i.test(item.url)||!/^https?:\/\//i.test(item.thumbnail))continue;
+      const link=document.createElement('a');link.className='imageResult';link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
+      const image=document.createElement('img');image.src=item.thumbnail;image.alt=item.title||'Image result';image.loading='lazy';image.referrerPolicy='no-referrer';image.onerror=()=>{image.hidden=true};
+      const title=document.createElement('strong');title.textContent=item.title||'Image';const source=document.createElement('small');source.textContent=item.source||new URL(item.url).hostname;link.append(image,title,source);$('imageGrid').append(link);
+    }
+  }catch(e){if(revision===imageRevision&&view===viewRevision){$('imageNotice').textContent=e.message||'Image search could not connect.';$('imageRetry').hidden=false}}
+  finally{if(revision===imageRevision&&view===viewRevision){imageLoading=false;saveTab()}}
+}
+$('imageRetry').onclick=loadImages;
+function animateReveal(element){
+  if(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches||!element.animate)return;
+  element.getAnimations().forEach(animation=>animation.cancel());
+  element.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:260,easing:'cubic-bezier(.2,.7,.2,1)'});
+}
+for(const sign of JollyHoroscopes.signs){const option=document.createElement('option');option.value=sign;option.textContent=sign;$('zodiacSign').append(option)}
+let horoscopeDate='',horoscopeAnimation=0;
+function renderHoroscope(){
+  const sign=$('zodiacSign').value;
+  if(!sign){$('horoscopeReading').hidden=true;horoscopeDate='';return}
+  const reading=JollyHoroscopes.reading(sign);horoscopeDate=reading.date;
+  $('horoscopeSign').textContent=reading.sign;$('horoscopeTraits').textContent=reading.traits;$('horoscopeFocus').textContent='Today’s focus: '+reading.focus;$('horoscopeText').textContent=reading.text;
+  $('horoscopeDate').textContent=new Date(reading.date+'T12:00:00Z').toLocaleDateString(undefined,{month:'short',day:'numeric',timeZone:'UTC'});$('horoscopeDate').dateTime=reading.date;
+  $('horoscopeReading').hidden=false;animateReveal($('horoscopeReading'));
+}
+function setHoroscopeOpen(open,restoreFocus=false){
+  const revision=++horoscopeAnimation,dropdown=$('horoscopeDropdown');
+  $('horoscopesBtn').setAttribute('aria-expanded',String(open));
+  if(open){dropdown.hidden=false;renderHoroscope();animateReveal(dropdown);$('zodiacSign').focus()}
+  else{
+    if(restoreFocus)$('horoscopesBtn').focus();
+    if(!dropdown.hidden&&dropdown.animate&&!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){dropdown.getAnimations().forEach(animation=>animation.cancel());dropdown.animate([{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(6px)'}],{duration:150,easing:'ease-out'}).finished.then(()=>{if(revision===horoscopeAnimation)dropdown.hidden=true}).catch(()=>{})}
+    else dropdown.hidden=true;
+  }
+}
+$('horoscopesBtn').onclick=()=>setHoroscopeOpen($('horoscopesBtn').getAttribute('aria-expanded')!=='true');
+$('zodiacSign').onchange=renderHoroscope;
+document.addEventListener('click',event=>{if(!$('horoscopeControl').contains(event.target)&&$('horoscopesBtn').getAttribute('aria-expanded')==='true')setHoroscopeOpen(false)});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('horoscopesBtn').getAttribute('aria-expanded')==='true'){event.preventDefault();setHoroscopeOpen(false,true)}});
+function refreshHoroscope(){if(!$('horoscopeDropdown').hidden&&$('zodiacSign').value&&horoscopeDate!==new Date().toISOString().slice(0,10))renderHoroscope()}
+setInterval(refreshHoroscope,60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshHoroscope()});
+let factDate='',factLoading=false;
+async function loadDailyFact(){
+  if(factLoading)return;
+  factLoading=true;$('factText').textContent='Finding today’s little discovery…';$('factSource').hidden=true;$('factRetry').hidden=true;
+  try{
+    const response=window.jolly?.fact?null:await fetch('/.netlify/functions/fact',{signal:AbortSignal.timeout(15000)});
+    const data=response?await response.json():await window.jolly.fact();
+    if(data.error||response&&!response.ok)throw new Error(data.error||'Today’s fun fact is unavailable.');
+    if(typeof data.text!=='string')throw new Error('Today’s fun fact is unavailable.');
+    factDate=data.date;$('factText').textContent=data.text;$('factDate').textContent=new Date(data.date+'T12:00:00Z').toLocaleDateString(undefined,{month:'short',day:'numeric',timeZone:'UTC'});
+    const source=new URL(data.source);if(['https:','http:'].includes(source.protocol)){$('factSource').href=source.href;$('factSource').hidden=false}
+  }catch{$('factText').textContent='Today’s fun fact could not load. Give it another try.';$('factDate').textContent='';$('factRetry').hidden=false;factDate=''}
+  finally{factLoading=false}
+}
+$('funFact').onclick=()=>{const show=$('dailyFact').hidden;$('dailyFact').hidden=!show;$('funFact').setAttribute('aria-expanded',String(show));if(show&&factDate!==new Date().toISOString().slice(0,10))loadDailyFact()};
+$('factRetry').onclick=loadDailyFact;
+function refreshDailyFact(){if(!$('dailyFact').hidden&&factDate!==new Date().toISOString().slice(0,10))loadDailyFact()}
+setInterval(refreshDailyFact,60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDailyFact()});
 function setStatus(s){$('status').textContent=s||''}
 function cleanUrl(input){let s=input.trim();if(!s)return null;if(/^https?:\/\//i.test(s))return s;if(/^[\w-]+(\.[\w-]+)+(\/\S*)?$/i.test(s)&&!/\s/.test(s))return 'https://'+s;return null}
 function searchUrl(q){return 'https://www.google.com/search?q='+encodeURIComponent(q)}
-function showHome(){viewRevision++;state.url='';state.view='home';$('views').className='view-home';$('home').style.display='flex';$('results').style.display='none';$('aiPage').style.display='none';$('page').style.display='none';$('url').value='';setStatus('');renderTabs()}
-function showSearchPage(){ $('views').className='view-results'; $('home').style.display='none'; $('results').style.display='block'; $('aiPage').style.display='none'; $('page').style.display='none';  }
-function showAIPage(){state.view='ai';$('views').className='view-ai';$('home').style.display='none';$('results').style.display='none';$('aiPage').style.display='block';$('page').style.display='none';$('visionQuestion').focus()}
+function showHome(){viewRevision++;state.url='';state.view='home';$('views').className='view-home';$('home').style.display='flex';$('results').style.display='none';$('aiPage').style.display='none';$('page').style.display='none';$('url').value='';setStatus('');renderTabs();animateReveal($('home'))}
+function showSearchPage(){setHoroscopeOpen(false);document.querySelector('.searchTabs').hidden=state.view!=='results';if(state.view!=='results')selectSearchTab('all',false); $('views').className='view-results'; $('home').style.display='none'; $('results').style.display='block'; $('aiPage').style.display='none'; $('page').style.display='none';animateReveal($('results'));  }
+function showAIPage(){setHoroscopeOpen(false);state.view='ai';$('views').className='view-ai';$('home').style.display='none';$('results').style.display='none';$('aiPage').style.display='block';$('page').style.display='none';$('visionQuestion').focus();animateReveal($('aiPage'))}
 
 function navigate(url,push=true,openExternal=true){
+  setHoroscopeOpen(false);
   const valid=cleanUrl(url);if(!valid){runSearch(url);return}
   if(push)recordVisit('page',valid,valid);
   if (!window.jolly && !$('page').loadURL) {
@@ -258,24 +404,24 @@ function navigate(url,push=true,openExternal=true){
 function go(input){const s=input.trim();if(!s)return;const u=cleanUrl(s);if(u)navigate(u);else runSearch(s)}
 async function runSearch(query,withAI=false){
   query=String(query||'').trim();if(!query)return;
-  const revision=++viewRevision;recordVisit('results',query,'Search: '+query);state.view='results';state.url='';state.lastQuery=query;showSearchPage();$('queryTitle').textContent='Search: '+query;
-  $('url').value=query;$('notice').textContent='Searching the web…';$('hq').value=query;$('resultList').innerHTML='';$('aiCard').style.display='none';$('sources').innerHTML='';renderTabs();
+  const revision=++viewRevision;recordVisit('results',query,'Search: '+query);state.view='results';state.url='';state.lastQuery=query;imageRevision++;imagesLoaded=false;imageLoading=false;$('imageGrid').innerHTML='';$('imageNotice').textContent='';selectSearchTab('all',false);showSearchPage();$('queryTitle').textContent='Search: '+query;
+  $('url').value=query;$('notice').textContent='Searching the web…';$('hq').value=query;$('resultList').innerHTML='';$('aiCard').style.display='block';$('aiAnswer').textContent='Searching for sources…';$('sources').innerHTML='';renderTabs();
   let result;
   try {
     if (window.jolly && typeof window.jolly.search === 'function') {
       result = await window.jolly.search({query});
     } else {
-      const response = await fetch('/.netlify/functions/search?query=' + encodeURIComponent(query));
+      const response = await fetch('/.netlify/functions/search?query=' + encodeURIComponent(query), {signal:AbortSignal.timeout(25000)});
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || `Search service returned HTTP ${response.status}`);
       result = data;
     }
   } catch (error) {
-    result = {results:[], error:'Search could not connect. Check that netlify/functions/search.js is uploaded and deployed, then try again. ' + (error.message || '')};
+    result = {results:[], error:'Search could not connect. Please try again. ' + (error.message || '')};
   }
   if(revision!==viewRevision)return;
   state.searchResults=result.results||[];
-  $('notice').textContent=result.provider?`Results from ${result.provider}.`:'';
+  $('notice').textContent=[result.provider?`Results from ${result.provider}.`:'',result.warning||''].filter(Boolean).join(' ');
   const list=$('resultList');list.innerHTML='';
   if(result.error){const p=document.createElement('p');p.textContent=result.error;list.append(p)}
   if(!state.searchResults.length && !result.error){const p=document.createElement('p');p.textContent='No results came back. Try another search or open full Google Search below.';list.append(p)}
@@ -288,7 +434,7 @@ async function runSearch(query,withAI=false){
   }
   const links=document.createElement('p');links.innerHTML='';const google=document.createElement('a');google.href=searchUrl(query);google.dataset.navigate=searchUrl(query);google.textContent='Open full Google Search';list.append(google);
   // Show a Jolly Vision overview at the top of every search results page.
-  if(state.searchResults.length){
+  {
     $('aiCard').style.display='block';$('aiCard').style.borderColor='var(--line)';$('aiCard').querySelector('.cardhead').textContent='✦ Jolly Vision overview';$('aiAnswer').textContent='Creating an AI overview';$('aiAnswer').classList.add('loadingDots');
     try{const aiData=await requestAI({question:query,sources:state.searchResults});if(revision!==viewRevision)return;$('aiAnswer').textContent=aiData.text||aiData.answer||aiData.error||'No overview was returned.';}
     catch(e){if(revision===viewRevision)$('aiAnswer').textContent=e.message;}
@@ -327,11 +473,11 @@ $('page').addEventListener('page-title-updated',e=>{state.title=e.title;const t=
 $('page').addEventListener('did-fail-load',e=>{if(e.errorCode!==-3)setStatus(`This page could not load (${e.errorDescription||e.errorCode}). You can try opening it externally.`);});
 document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const q=b.dataset.q;$('hq').value=q;runSearch(q,true)});
 function currentEntry(){const view=state.view;const value=view==='results'?state.lastQuery:view==='ai'?$('visionQuestion').value:state.url;return {view,value,title:view==='results'?'Search: '+value:view==='ai'?'AI: '+value:view==='page'?(state.title||value):'New tab'}}
-function saveTab(){const t=tabs[activeTab];if(!t)return;t.entry=currentEntry();t.results=$('resultList').innerHTML;t.notice=$('notice').textContent;t.searchResults=state.searchResults;t.aiCard=$('aiCard').innerHTML;t.aiVisible=$('aiCard').style.display;t.answer=$('visionAnswer').textContent;t.sources=$('visionSources').innerHTML}
+function saveTab(){const t=tabs[activeTab];if(!t)return;t.searchMode=searchMode;t.images=$('imageGrid').innerHTML;t.imageNotice=$('imageNotice').textContent;t.imagesLoaded=imagesLoaded;t.entry=currentEntry();t.results=$('resultList').innerHTML;t.notice=$('notice').textContent;t.searchResults=state.searchResults;t.aiCard=$('aiCard').innerHTML;t.aiVisible=$('aiCard').style.display;t.answer=$('visionAnswer').textContent;t.sources=$('visionSources').innerHTML}
 function restoreEntry(entry){if(entry.view==='results')runSearch(entry.value);else if(entry.view==='ai')askVision(entry.value);else if(entry.view==='page')navigate(entry.value);else showHome()}
 function newTab(){saveTab();tabs.push({entry:{view:'home',value:'',title:'New tab'},trail:[],position:-1});activeTab=tabs.length-1;showHome();saveTab();renderTabs()}
 function switchTab(i){if(i===activeTab)return;saveTab();viewRevision++;activeTab=i;const t=tabs[i],e=t.entry;state.view=e.view;state.url=e.view==='page'?e.value:'';state.lastQuery=e.view==='results'?e.value:'';state.searchResults=t.searchResults||[];
-  if(e.view==='home')showHome();else if(e.view==='results'){showSearchPage();$('queryTitle').textContent=e.title;$('resultList').innerHTML=t.results||'';$('notice').textContent=t.notice==='Searching the web…'?'Search was interrupted. Reload to try again.':t.notice||'';$('aiCard').innerHTML=t.aiCard||$('aiCard').innerHTML;$('aiCard').style.display=t.aiVisible||'none';$('aiAnswer').classList.remove('loadingDots');if($('aiAnswer').textContent==='Creating an AI overview')$('aiAnswer').textContent='Reload to create an AI overview.'}else if(e.view==='ai'){showAIPage();$('visionQuestion').value=e.value;$('visionAnswer').textContent=t.answer==='Thinking'?'Submit your question again to continue.':t.answer||'';$('visionAnswer').classList.remove('loadingDots');$('visionSources').innerHTML=t.sources||''}else navigate(e.value,false,false);
+  if(e.view==='home')showHome();else if(e.view==='results'){showSearchPage();imageRevision++;imageLoading=false;imagesLoaded=!!t.imagesLoaded;$('imageGrid').innerHTML=t.images||'';$('imageNotice').textContent=t.imageNotice||'';$('imageRetry').hidden=imagesLoaded;selectSearchTab(t.searchMode||'all',false);$('queryTitle').textContent=e.title;$('resultList').innerHTML=t.results||'';$('notice').textContent=t.notice==='Searching the web…'?'Search was interrupted. Reload to try again.':t.notice||'';$('aiCard').innerHTML=t.aiCard||$('aiCard').innerHTML;$('aiCard').style.display=t.aiVisible||'none';$('aiAnswer').classList.remove('loadingDots');if($('aiAnswer').textContent==='Creating an AI overview')$('aiAnswer').textContent='Reload to create an AI overview.'}else if(e.view==='ai'){showAIPage();$('visionQuestion').value=e.value;$('visionAnswer').textContent=t.answer==='Thinking'?'Submit your question again to continue.':t.answer||'';$('visionAnswer').classList.remove('loadingDots');$('visionSources').innerHTML=t.sources||''}else navigate(e.value,false,false);
   $('url').value=e.value;renderTabs()
 }
 function closeTab(i){if(i!==activeTab){tabs.splice(i,1);if(i<activeTab)activeTab--;renderTabs();return}saveTab();tabs.splice(i,1);if(!tabs.length){activeTab=-1;newTab();return}activeTab=-1;switchTab(Math.min(i,tabs.length-1))}

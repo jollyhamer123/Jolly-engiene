@@ -13,7 +13,7 @@ function client(responses) {
 }
 function failure(status) { return Object.assign(new Error('Provider request failed'), { status }); }
 
-test('uses the current Flash alias and preserves the question and configuration', async () => {
+test('uses the pinned Flash model and preserves the question and configuration', async () => {
   const ai = client([{ text: 'Hello' }]);
   const parameters = { contents: 'Hello?', config: { maxOutputTokens: 4096 } };
   assert.deepEqual(await generateAnswer(ai, parameters), { text: 'Hello' });
