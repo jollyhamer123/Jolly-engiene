@@ -41,26 +41,20 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
 .result .url{font-size:12px;color:#26834a;margin-top:3px;overflow-wrap:anywhere}.result p{font-size:14px;line-height:1.55;font-weight:450;margin:6px 0 0}
 #layout{display:flex;flex:1;min-width:0;min-height:0}
 #page{display:none;width:100%;height:100%;border:0;background:white}
-#assistant{width:365px;min-width:300px;display:none;flex-direction:column;border-left:1px solid var(--line);min-height:0}
-#assistant.open{display:flex}
-#ahead{padding:14px 16px 10px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
-#ahead small{display:block;color:var(--mute);font-size:11px;font-weight:600;margin-top:3px}
-#chat{flex:1;overflow:auto;padding:8px 14px;display:flex;flex-direction:column;gap:10px}
-.msg{white-space:pre-wrap;overflow-wrap:anywhere;padding:10px 12px;border-radius:15px;max-width:96%;font-size:13px;line-height:1.55;font-weight:500}
-.msg.user{align-self:flex-end;background:var(--blue);color:#fff}.msg.ai{align-self:flex-start;background:var(--soft)}.msg.err{background:#ffe3df}
-#chatform{display:flex;gap:7px;padding:12px;border-top:1px solid var(--line)}
-#question{min-width:0;flex:1;border:1px solid var(--line);border-radius:20px;padding:10px 13px;font-size:13px}
-#send{border:0;border-radius:50%;width:40px;background:var(--accent);font-size:18px}
-#chattools{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:0 12px 8px;font-size:11px;color:var(--mute)}
+
+
+
+
+
+
+
+
+
+
+
 .smallbtn{border:1px solid var(--line);border-radius:10px;background:white;padding:6px 9px;font-size:11px;font-weight:700}
-#settings{display:none;position:fixed;z-index:9;inset:0;background:#0007;align-items:center;justify-content:center;padding:20px}
-#settings.show{display:flex}.modal{width:min(500px,100%);max-height:90vh;overflow:auto;background:white;border-radius:22px;padding:24px;box-shadow:0 20px 80px #0003}
-.modal h2{margin-bottom:8px}.modal p{color:var(--mute);font-size:13px;line-height:1.5}
-.modal label{display:block;font-size:12px;font-weight:800;margin:14px 0 6px}
-.modal input,.modal select,.modal textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}.modal textarea{min-height:65px}
-.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
 #status{font-size:12px;color:var(--mute);min-height:16px}
-@media(max-width:900px){#assistant{width:320px;min-width:280px}#tabs{max-width:18%}#jollyBtn{padding:0 9px}}
+@media(max-width:900px){#tabs{max-width:18%}#jollyBtn{padding:0 9px}}
 
 /* Screenshot-inspired Jolly Engine layout */
 #app{grid-template-rows:49px minmax(0,1fr)}
@@ -105,22 +99,22 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
 #aiCard{border-color:var(--line);border-radius:15px}
 #layout{min-height:0}
 #page{position:absolute;inset:0;width:100%;height:100%;z-index:3}
-#assistant{display:flex;width:306px;min-width:270px;max-width:31vw;flex:0 0 306px;border-left:0;align-self:stretch;background:#fff;padding:0 0 15px;min-height:0}
-#ahead{display:none}
-#assistantIntro{margin:20px 0 0;padding:0 4px 13px}
-#assistantIntro strong{font-size:15px}
-#assistantIntro p{font-size:11px;line-height:1.55;color:var(--mute);margin:12px 0 0}
-#chat{flex:1;overflow:auto;padding:0 4px;min-height:90px}
-.msg{font-size:11px;border-radius:14px}
-#chattools{padding:8px 4px;font-size:10px}
-#chatform{padding:10px 4px;border-top:1px solid var(--line)}
-#question{font-size:11px}
-#send{border-radius:12px;width:38px}
+
+
+
+
+
+
+
+
+
+
+
 .smallbtn{border-radius:10px}
 .emptyResults{padding:12px 0;color:var(--mute);font-size:12px}
 .emptyResults strong{color:var(--ink);font-size:13px}
 .emptyResults p{margin:7px 0 0;line-height:1.5}
-#settings{z-index:20}
+
 @media(max-width:760px){
  #home{width:100%;padding-left:4px;padding-right:4px}
  #bar{padding:0 10px;gap:7px}
@@ -135,15 +129,15 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
  #logo{font-size:76px}
  #searchbox{padding-left:13px}
  #searchbox .primary{padding:10px}
- #assistant{display:none;max-width:none;width:100%;min-width:0;flex-basis:auto}
- #assistant.open{display:flex}
+
+
 }
 
 
 #results{border:1px solid var(--line);border-radius:17px;padding:17px 18px 20px;margin-bottom:12px;background:#fff}
-#assistant{margin-top:425px;height:calc(100% - 425px);overflow:hidden;border:1px solid var(--line);border-radius:17px;padding:0 14px 10px}
-#assistantIntro{margin-top:18px}
-@media(max-width:760px){#assistant{margin-top:0;height:auto}}
+
+
+@media(max-width:760px){}
 
 
 /* Smooth full-page transitions and dedicated search / AI views */
@@ -154,7 +148,7 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
 #views.view-results #results{display:block!important;animation:pageIn .28s ease both}
 #views.view-ai #aiPage{display:block!important;animation:pageIn .28s ease both}
 #views.view-ai #results{display:none!important}
-#views.view-results #assistant,#views.view-ai #assistant{display:none!important}
+
 #aiPage .wrap{max-width:900px;margin:0 auto}
 .pageBack{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 13px;margin-bottom:22px;font-weight:750}
 .visionCard{border:1px solid #dfe5ff;background:linear-gradient(135deg,#f7f9ff,#fff 70%);border-radius:20px;padding:22px;margin:18px 0 28px;box-shadow:0 10px 30px #1a5cff0b}
@@ -166,6 +160,37 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%,100%{content:'...'}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+/* Button accents preserve the original page and logo palette. */
+button:not(#miniLogo){background:var(--blue);color:#fff;border-color:var(--blue)}
+
+button:not(#miniLogo):hover{filter:brightness(.9)}
+button:disabled{opacity:.6;cursor:wait}
+#app{grid-template-rows:auto auto minmax(0,1fr)}
+#bar{min-height:58px;flex-wrap:wrap;padding:8px 14px}
+#topSearchWrap{flex:1;min-width:150px;width:auto}
+#back,#forward,#reload,#bookmark{display:inline-flex!important;align-items:center;justify-content:center}
+#tabBar{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--soft);min-width:0}
+#openTabs{display:flex;gap:6px;overflow:auto;flex:1;min-width:0}
+.browserTab{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;min-width:130px;max-width:230px;background:#fff}
+.browserTab.active{border-color:var(--blue);box-shadow:inset 0 -2px var(--blue)}
+.browserTab button{border:0;border-radius:8px;padding:8px;font-size:12px}
+.browserTab .tabSelect{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.browserTab .tabClose{background:var(--red);margin:3px;padding:5px 9px}
+#addTab,.libraryActions button{border:0;border-radius:9px;padding:9px 12px;white-space:nowrap}
+.libraryActions{display:flex;gap:6px}
+button.askbtn,#jollyBtn{background:var(--red);color:white;border-color:var(--red)}
+#home{width:100%;padding-top:70px}
+#libraryDialog{width:min(600px,94vw);max-height:80vh;border:1px solid var(--line);border-radius:18px;padding:22px;color:var(--ink)}
+#libraryDialog::backdrop{background:#11111466}
+.libraryHead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.libraryHead h2{margin:0}.libraryHead button,#clearHistory,.savedRow button{border:0;border-radius:8px;padding:8px 12px}
+.libraryHint,.savedDate{color:var(--mute);font-size:12px;line-height:1.5}
+.savedRow{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.savedRow .savedOpen{flex:1;min-width:0;text-align:left;overflow-wrap:anywhere}
+.savedRow .savedRemove,#clearHistory{background:var(--red)}
+#clearHistory{margin-top:16px}
+#page{z-index:1}
+@media(max-width:600px){#tabBar{flex-wrap:wrap}#openTabs{flex-basis:80%}.libraryActions{margin-left:auto}#miniLogo{display:none}#bar{gap:6px}#headerActions{order:3}#topSearchWrap{order:2;flex-basis:75%}#visionForm{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -173,7 +198,7 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
   <header id="bar">
     <button id="miniLogo" title="Jolly Engine home" aria-label="Jolly Engine home"><span>J</span><span>o</span><span>l</span><span>l</span><span>y</span><span>.</span></button>
     <div id="topSearchWrap"><input id="url" placeholder="Search the web..." autocomplete="off" spellcheck="false"><button id="topSearch" class="primary">Search</button></div>
-    <div id="headerActions"><button class="ic" id="settingsBtn" title="Settings">⚙</button><button id="jollyBtn">Jolly AI</button></div>
+    <div id="headerActions"><button id="jollyBtn">Jolly AI</button></div>
     <div id="tabs" aria-label="Tabs"></div>
     <button class="ic hiddenNav" id="newTab" title="New tab">+</button>
     <button class="ic hiddenNav" id="back" title="Back">‹</button>
@@ -181,6 +206,7 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
     <button class="ic hiddenNav" id="reload" title="Reload">↻</button>
     <button class="ic hiddenNav" id="bookmark" title="Bookmark this page">☆</button>
   </header>
+  <nav id="tabBar" aria-label="Browser tabs"><div id="openTabs" role="tablist"></div><button id="addTab" aria-label="Open a new tab">+</button><div class="libraryActions"><button id="historyBtn">History</button><button id="bookmarksBtn">Bookmarks</button></div></nav>
   <div id="stage"><div id="views">
     <section id="home">
       <h1 id="logo"><span>J</span><span>o</span><span>l</span><span>l</span><span>y</span><span>.</span></h1>
@@ -193,51 +219,51 @@ button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}bu
     <section id="results"><div class="wrap"><button class="pageBack" id="backFromResults">← Back to Jolly</button><h2 id="queryTitle">Search: get started</h2><div id="notice">Search the web and select a result to open its source.</div><section id="aiCard"><div class="cardhead">Jolly AI answer</div><div id="aiAnswer"></div><div id="sources"></div></section><div id="resultList"><div class="emptyResults"><strong>Your search results will appear here</strong><p>Type a question or website in the search bar above to get started.</p></div></div></div></section>
     <webview id="page" title="Webpage" partition="persist:jolly-pages" allowpopups></webview>
   </div>
-  <aside id="assistant" class="open">
-    <div id="ahead"><div>Jolly Assistant<small>AI answers grounded in web results</small></div><button class="ic" id="closeAssistant">×</button></div>
-    <div id="assistantIntro"><strong>✦ Jolly AI Assistant</strong><p>Ask a question for a conversational answer. To enable AI, add an API key securely in the settings.</p></div><div id="chat"></div>
-    <div id="chattools"><button class="smallbtn" id="summarize">Summarize current page</button><button class="smallbtn" id="clearChat">New chat</button></div>
-    <form id="chatform"><input id="question" placeholder="Ask Jolly anything…" autocomplete="off"><button id="send" aria-label="Send">➤</button></form>
-  </aside></div>
 </div>
-<div id="settings"><div class="modal">
-  <h2>Jolly Engine settings</h2><p>Search can use the limited free DuckDuckGo instant-answer endpoint. For broad web listings, configure a Brave Search API key. AI answers require an OpenAI API key.</p>
-  <label for="openaiKey">OpenAI API key</label><input id="openaiKey" type="password" autocomplete="off" placeholder="sk-…">
-  <label for="braveKey">Brave Search API key</label><input id="braveKey" type="password" autocomplete="off" placeholder="Optional, for full web search">
-  <label for="model">AI model</label><select id="model"><option value="gpt-4o-mini">gpt-4o-mini (recommended)</option><option value="gpt-4.1-mini">gpt-4.1-mini</option></select>
-  <p>Keys entered here are saved in this app's local storage on this computer. For a personal project, don't share the app with other people while your own API keys are stored in it. A production release should use a proper secure credential store or backend.</p>
-  <div class="actions"><button class="smallbtn" id="cancelSettings">Cancel</button><button class="primary" id="saveSettings">Save settings</button></div>
-</div></div>
+</div>
+<dialog id="libraryDialog"><div class="libraryHead"><h2 id="libraryTitle">History</h2><button id="closeLibrary" aria-label="Close saved items">×</button></div><p class="libraryHint">Private to this browser. Clearing cookies removes access to your saved items.</p><div id="libraryItems" aria-live="polite"></div><button id="clearHistory">Clear history</button></dialog>
 <script>
 const $=id=>document.getElementById(id);
-const state={view:'home',url:'',title:'New tab',history:[],historyIndex:-1,bookmarks:[],chat:[],searchResults:[],lastQuery:''};
-let tabs=[],activeTab=0;
-function settings(){try{return JSON.parse(localStorage.getItem('jolly-config')||'{}')}catch{return {}}}
+const state={view:'home',url:'',title:'New tab',history:[],historyIndex:-1,bookmarks:[],searchResults:[],lastQuery:''};
+let tabs=[],activeTab=0,viewRevision=0;
+try{localStorage.removeItem('jolly-config')}catch{}
+async function requestAI(payload){
+  if(window.jolly?.ask){const data=await window.jolly.ask(payload);if(data.error)throw new Error(data.error);return data}
+  let response;
+  try{response=await fetch('/.netlify/functions/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(55000)})}catch{throw new Error('The AI request timed out or the network is unavailable. Please try again.')}
+  if(response.status===401||response.status===403)throw new Error('Site access protection is blocking AI requests. Reload to sign in again. The site owner can make visitor access public in Netlify.');
+  if(!(response.headers.get('content-type')||'').includes('application/json'))throw new Error('The AI endpoint is unavailable. The site owner needs to publish the latest version.');
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||'Jolly AI is temporarily unavailable. Please try again.');
+  return data;
+}
 function setStatus(s){$('status').textContent=s||''}
 function cleanUrl(input){let s=input.trim();if(!s)return null;if(/^https?:\/\//i.test(s))return s;if(/^[\w-]+(\.[\w-]+)+(\/\S*)?$/i.test(s)&&!/\s/.test(s))return 'https://'+s;return null}
 function searchUrl(q){return 'https://www.google.com/search?q='+encodeURIComponent(q)}
-function showHome(){state.view='home';$('views').className='view-home';$('home').style.display='flex';$('results').style.display='none';$('aiPage').style.display='none';$('page').style.display='none';$('assistant').style.display='flex';$('url').value='';setStatus('');renderTabs()}
-function showSearchPage(){ $('views').className='view-results'; $('home').style.display='none'; $('results').style.display='block'; $('aiPage').style.display='none'; $('page').style.display='none'; $('assistant').style.display='none'; }
-function showAIPage(){state.view='ai';$('views').className='view-ai';$('home').style.display='none';$('results').style.display='none';$('aiPage').style.display='block';$('page').style.display='none';$('assistant').style.display='none';$('visionQuestion').focus()}
+function showHome(){viewRevision++;state.url='';state.view='home';$('views').className='view-home';$('home').style.display='flex';$('results').style.display='none';$('aiPage').style.display='none';$('page').style.display='none';$('url').value='';setStatus('');renderTabs()}
+function showSearchPage(){ $('views').className='view-results'; $('home').style.display='none'; $('results').style.display='block'; $('aiPage').style.display='none'; $('page').style.display='none';  }
+function showAIPage(){state.view='ai';$('views').className='view-ai';$('home').style.display='none';$('results').style.display='none';$('aiPage').style.display='block';$('page').style.display='none';$('visionQuestion').focus()}
 
-function navigate(url,push=true){
+function navigate(url,push=true,openExternal=true){
   const valid=cleanUrl(url);if(!valid){runSearch(url);return}
-  if (!window.jolly && !$('page').loadURL) { window.open(valid, '_blank', 'noopener,noreferrer'); return; }
-  state.view='page';state.url=valid;state.title=valid;
-  $('home').style.display='none';$('results').style.display='none';$('assistant').style.display='none';$('page').style.display='block';$('page').loadURL(valid).catch(()=>{});$('url').value=valid;
+  if(push)recordVisit('page',valid,valid);
+  if (!window.jolly && !$('page').loadURL) {
+    viewRevision++;state.view='page';state.url=valid;state.title=valid;showSearchPage();$('url').value=valid;$('queryTitle').textContent=valid;$('notice').textContent='This website opens in a separate browser tab. You can bookmark it here.';$('aiCard').style.display='none';$('resultList').innerHTML='';const link=document.createElement('a');link.href=valid;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Open website';$('resultList').append(link);if(openExternal)window.open(valid,'_blank','noopener,noreferrer');saveTab();renderTabs();return;
+  }
+  viewRevision++;state.view='page';state.url=valid;state.title=valid;
+  $('home').style.display='none';$('results').style.display='none';$('page').style.display='block';$('page').loadURL(valid).catch(()=>{});$('url').value=valid;
   if(push){state.history=state.history.slice(0,state.historyIndex+1);state.history.push(valid);state.historyIndex=state.history.length-1}
   renderTabs();$('bookmark').textContent=state.bookmarks.includes(valid)?'★':'☆';
 }
 function go(input){const s=input.trim();if(!s)return;const u=cleanUrl(s);if(u)navigate(u);else runSearch(s)}
 async function runSearch(query,withAI=false){
   query=String(query||'').trim();if(!query)return;
-  state.view='results';state.lastQuery=query;showSearchPage();$('queryTitle').textContent='Search: '+query;
+  const revision=++viewRevision;recordVisit('results',query,'Search: '+query);state.view='results';state.url='';state.lastQuery=query;showSearchPage();$('queryTitle').textContent='Search: '+query;
   $('url').value=query;$('notice').textContent='Searching the web…';$('hq').value=query;$('resultList').innerHTML='';$('aiCard').style.display='none';$('sources').innerHTML='';renderTabs();
-  const cfg=settings();
   let result;
   try {
     if (window.jolly && typeof window.jolly.search === 'function') {
-      result = await window.jolly.search({query,apiKey:cfg.braveKey});
+      result = await window.jolly.search({query});
     } else {
       const response = await fetch('/.netlify/functions/search?query=' + encodeURIComponent(query));
       const data = await response.json().catch(() => ({}));
@@ -247,81 +273,79 @@ async function runSearch(query,withAI=false){
   } catch (error) {
     result = {results:[], error:'Search could not connect. Check that netlify/functions/search.js is uploaded and deployed, then try again. ' + (error.message || '')};
   }
+  if(revision!==viewRevision)return;
   state.searchResults=result.results||[];
   $('notice').textContent=result.provider?`Results from ${result.provider}.`:'';
   const list=$('resultList');list.innerHTML='';
   if(result.error){const p=document.createElement('p');p.textContent=result.error;list.append(p)}
-  if(!state.searchResults.length && !result.error){const p=document.createElement('p');p.textContent='No results came back from the search provider. Add BRAVE_SEARCH_API_KEY in Netlify environment variables for full web results.';list.append(p)}
+  if(!state.searchResults.length && !result.error){const p=document.createElement('p');p.textContent='No results came back. Try another search or open full Google Search below.';list.append(p)}
   for(const r of state.searchResults){
     const el=document.createElement('article');el.className='result';
-    const a=document.createElement('a');a.href='#';a.textContent=r.title||r.url;a.onclick=e=>{e.preventDefault();navigate(r.url)};
+    const a=document.createElement('a');a.href=r.url;a.dataset.navigate=r.url;a.textContent=r.title||r.url;
     const u=document.createElement('div');u.className='url';u.textContent=r.url;
     const p=document.createElement('p');p.textContent=r.snippet||'';
     el.append(a,u,p);list.append(el)
   }
-  const links=document.createElement('p');links.innerHTML='';const google=document.createElement('a');google.href='#';google.textContent='Open full Google Search';google.onclick=e=>{e.preventDefault();navigate(searchUrl(query))};list.append(google);
+  const links=document.createElement('p');links.innerHTML='';const google=document.createElement('a');google.href=searchUrl(query);google.dataset.navigate=searchUrl(query);google.textContent='Open full Google Search';list.append(google);
   // Show a Jolly Vision overview at the top of every search results page.
   if(state.searchResults.length){
     $('aiCard').style.display='block';$('aiCard').style.borderColor='var(--line)';$('aiCard').querySelector('.cardhead').textContent='✦ Jolly Vision overview';$('aiAnswer').textContent='Creating an AI overview';$('aiAnswer').classList.add('loadingDots');
-    try{const aiRes=await fetch('/.netlify/functions/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:query,sources:state.searchResults})});const aiData=await aiRes.json();$('aiAnswer').textContent=aiRes.ok?(aiData.text||aiData.answer||'No overview was returned.'):'Jolly Vision is unavailable: '+(aiData.error||'AI function error.');}
-    catch(e){$('aiAnswer').textContent='Jolly Vision could not connect. Check that netlify/functions/ask.js is deployed and OPENAI_API_KEY is configured.';}
-    finally{$('aiAnswer').classList.remove('loadingDots')}
+    try{const aiData=await requestAI({question:query,sources:state.searchResults});if(revision!==viewRevision)return;$('aiAnswer').textContent=aiData.text||aiData.answer||aiData.error||'No overview was returned.';}
+    catch(e){if(revision===viewRevision)$('aiAnswer').textContent=e.message;}
+    finally{if(revision===viewRevision)$('aiAnswer').classList.remove('loadingDots')}
+    if(revision!==viewRevision)return;
     $('sources').innerHTML='';state.searchResults.slice(0,4).forEach((r,i)=>{const a=document.createElement('a');a.className='source';a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='['+(i+1)+'] '+(r.title||r.url);$('sources').append(a)});
   }
-  if(withAI)await askVision(query);
+  if(revision!==viewRevision)return;saveTab();if(withAI)await askVision(query);
 }
-function addMsg(text,who='ai'){const d=document.createElement('div');d.className='msg '+who;d.textContent=text;$('chat').append(d);$('chat').scrollTop=$('chat').scrollHeight;return d}
-function openAssistant(){ $('assistant').style.display='flex';$('assistant').classList.add('open');if(!$('chat').children.length)addMsg('Hi! I’m Jolly Assistant. Ask me a question, or search the web and ask me to explain the results.');$('question').focus()}
-async function answerQuestion(question,sources=state.searchResults,pageText=''){
-  openAssistant();addMsg(question,'user');const pending=addMsg('Looking at the available information…','ai');
-  const cfg=settings();
-  const response=await window.jolly.ask({apiKey:cfg.openaiKey,model:cfg.model,question,sources,pageText,messages:state.chat});
-  pending.textContent=response.error||response.text||'No answer was returned.';
-  if(response.error)pending.classList.add('err');
-  state.chat.push({role:'user',content:question},{role:'assistant',content:pending.textContent});
+async function askVision(question){
+  question=String(question||'').trim();if(!question)return;
+  const revision=++viewRevision;recordVisit('ai',question,'AI: '+question);showAIPage();state.url='';
+  $('visionQuestion').value=question;$('url').value=question;$('visionAnswer').textContent='Thinking';$('visionAnswer').classList.add('loadingDots');$('visionSources').innerHTML='';saveTab();renderTabs();
+  try{
+    const data=await requestAI({question});if(revision!==viewRevision)return;
+    $('visionAnswer').textContent=data.text||data.answer||'Jolly AI did not return an answer.';
+  }catch(e){if(revision===viewRevision)$('visionAnswer').textContent=e.message}
+  finally{if(revision===viewRevision){$('visionAnswer').classList.remove('loadingDots');saveTab()}}
 }
-async function sendQuestion(q){
-  q=String(q||'').trim();if(!q)return;$('question').value='';
-  if(state.view==='home')await runSearch(q,true);
-  else await answerQuestion(q,state.searchResults,state.view==='page'?'': '');
-}
-async function askVision(question){question=String(question||'').trim();if(!question)return;showAIPage();$('visionQuestion').value=question;$('visionAnswer').textContent='Thinking';$('visionAnswer').classList.add('loadingDots');$('visionSources').innerHTML='';let sources=[];try{const res=await fetch('/.netlify/functions/search?query='+encodeURIComponent(question));const data=await res.json();sources=data.results||[]}catch{}try{const response=await fetch('/.netlify/functions/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question,sources})});const data=await response.json();if(!response.ok)throw new Error(data.error||'AI service returned HTTP '+response.status);$('visionAnswer').textContent=data.text||data.answer||'Jolly AI did not return an answer.';if(sources.length){$('visionSources').innerHTML='<p style="font-weight:800;margin-top:18px">Sources</p>';sources.slice(0,5).forEach(r=>{const a=document.createElement('a');a.className='source';a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=r.title||r.url;a.style.display='inline-block';a.style.margin='3px';$('visionSources').append(a)})}}catch(e){$('visionAnswer').textContent='Jolly Vision could not connect to its AI service. '+e.message+' Make sure netlify/functions/ask.js is deployed and OPENAI_API_KEY is set in Netlify environment variables.'}finally{$('visionAnswer').classList.remove('loadingDots')}}
 $('visionForm').onsubmit=e=>{e.preventDefault();askVision($('visionQuestion').value)};
 $('backFromAI').onclick=showHome;$('backFromResults').onclick=showHome;
 $('webSearch').onclick=()=>go($('hq').value);$('topSearch').onclick=()=>go($('url').value);$('miniLogo').onclick=showHome;$('askHomeAI').onclick=()=>askVision($('hq').value);
 $('hq').onkeydown=e=>{if(e.key==='Enter')go($('hq').value)};
 $('url').onkeydown=e=>{if(e.key==='Enter')go($('url').value)};
 $('jollyBtn').onclick=()=>askVision($('hq').value.trim()||'What can you help me with?');
-$('closeAssistant').onclick=()=>$('assistant').classList.remove('open');
-$('chatform').onsubmit=e=>{e.preventDefault();sendQuestion($('question').value)};
-$('back').onclick=()=>{if(state.view==='page'&&$('page').canGoBack())$('page').goBack();else if(state.historyIndex>0){state.historyIndex--;navigate(state.history[state.historyIndex],false)}else showHome()};
-$('forward').onclick=()=>{if(state.view==='page'&&$('page').canGoForward())$('page').goForward();else if(state.historyIndex<state.history.length-1){state.historyIndex++;navigate(state.history[state.historyIndex],false)}};
-$('reload').onclick=()=>state.view==='page'?($('page').reload()):state.view==='results'?runSearch(state.lastQuery):state.view==='ai'?askVision($('visionQuestion').value):showHome();
-$('newTab').onclick=()=>{tabs.push({title:'New tab',url:'',view:'home'});activeTab=tabs.length-1;showHome()};
-$('bookmark').onclick=()=>{if(!state.url)return;const i=state.bookmarks.indexOf(state.url);if(i>=0)state.bookmarks.splice(i,1);else state.bookmarks.push(state.url);localStorage.setItem('jolly-bookmarks',JSON.stringify(state.bookmarks));$('bookmark').textContent=i>=0?'☆':'★'};
-$('settingsBtn').onclick=()=>{const c=settings();$('openaiKey').value=c.openaiKey||'';$('braveKey').value=c.braveKey||'';$('model').value=c.model||'gpt-4o-mini';$('settings').classList.add('show')};
-$('cancelSettings').onclick=()=>$('settings').classList.remove('show');
-$('saveSettings').onclick=()=>{const c={openaiKey:$('openaiKey').value.trim(),braveKey:$('braveKey').value.trim(),model:$('model').value};localStorage.setItem('jolly-config',JSON.stringify(c));$('settings').classList.remove('show');setStatus('Settings saved. Restart Jolly Engine to apply search and model configuration.');};
-$('clearChat').onclick=()=>{$('chat').innerHTML='';state.chat=[];addMsg('New chat started. What would you like to know?')};
-$('summarize').onclick=async()=>{
-  if(state.view!=='page'){addMsg('Open a webpage first, then I can help summarize it.','err');openAssistant();return}
-  openAssistant();const pending=addMsg('Reading the current page…');
-  try{
-    const text=await $('page').executeJavaScript('document.body ? document.body.innerText : ""');
-    if(!text.trim())throw new Error('No readable text');
-    const cfg=settings();
-    const response=await window.jolly.ask({apiKey:cfg.openaiKey,model:cfg.model,question:'Summarize this webpage in five useful bullet points.',pageText:text.slice(0,16000),sources:[{title:state.title,url:state.url,snippet:''}]});
-    pending.textContent=response.error||response.text||'No summary returned.';
-    if(response.error)pending.classList.add('err');
-  }catch{pending.textContent='I could not read this page. Some sites restrict access or scripts. Try another page or copy its text into chat.'}
+$('back').onclick=()=>moveBack(-1);
+$('forward').onclick=()=>moveBack(1);
+$('reload').onclick=()=>state.view==='page'?$('page').reload():state.view==='results'?runSearch(state.lastQuery):state.view==='ai'?askVision($('visionQuestion').value):showHome();
+$('newTab').onclick=newTab;
+$('bookmark').onclick=async()=>{
+  const item=currentEntry();if(item.view==='home')return;
+  try{await libraryRequest('bookmark','POST',item);$('bookmark').textContent='★'}catch(e){setStatus(e.message);alert(e.message)}
 };
 $('page').addEventListener('did-navigate',e=>{state.url=e.url;$('url').value=e.url;$('bookmark').textContent=state.bookmarks.includes(e.url)?'★':'☆';});
 $('page').addEventListener('page-title-updated',e=>{state.title=e.title;const t=tabs[activeTab];if(t)t.title=e.title;renderTabs();});
-$('page').addEventListener('did-fail-load',e=>{if(e.errorCode!==-3)addMsg(`This page could not load (${e.errorDescription||e.errorCode}). You can try opening it externally.`, 'err');});
+$('page').addEventListener('did-fail-load',e=>{if(e.errorCode!==-3)setStatus(`This page could not load (${e.errorDescription||e.errorCode}). You can try opening it externally.`);});
 document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const q=b.dataset.q;$('hq').value=q;runSearch(q,true)});
-function renderTabs(){const host=$('tabs');host.innerHTML='';tabs.forEach((t,i)=>{const b=document.createElement('button');b.className='tab '+(i===activeTab?'active':'');b.textContent=t.title||'New tab';b.onclick=()=>{activeTab=i;if(t.url)navigate(t.url);else showHome()};host.append(b)})}
-try{state.bookmarks=JSON.parse(localStorage.getItem('jolly-bookmarks')||'[]')}catch{}
-tabs=[{title:'New tab',url:'',view:'home'}];renderTabs();showHome();addMsg('Hi! I’m Jolly Assistant. Ask me a question, or search the web and ask me to explain the results.');
+function currentEntry(){const view=state.view;const value=view==='results'?state.lastQuery:view==='ai'?$('visionQuestion').value:state.url;return {view,value,title:view==='results'?'Search: '+value:view==='ai'?'AI: '+value:view==='page'?(state.title||value):'New tab'}}
+function saveTab(){const t=tabs[activeTab];if(!t)return;t.entry=currentEntry();t.results=$('resultList').innerHTML;t.notice=$('notice').textContent;t.searchResults=state.searchResults;t.aiCard=$('aiCard').innerHTML;t.aiVisible=$('aiCard').style.display;t.answer=$('visionAnswer').textContent;t.sources=$('visionSources').innerHTML}
+function restoreEntry(entry){if(entry.view==='results')runSearch(entry.value);else if(entry.view==='ai')askVision(entry.value);else if(entry.view==='page')navigate(entry.value);else showHome()}
+function newTab(){saveTab();tabs.push({entry:{view:'home',value:'',title:'New tab'},trail:[],position:-1});activeTab=tabs.length-1;showHome();saveTab();renderTabs()}
+function switchTab(i){if(i===activeTab)return;saveTab();viewRevision++;activeTab=i;const t=tabs[i],e=t.entry;state.view=e.view;state.url=e.view==='page'?e.value:'';state.lastQuery=e.view==='results'?e.value:'';state.searchResults=t.searchResults||[];
+  if(e.view==='home')showHome();else if(e.view==='results'){showSearchPage();$('queryTitle').textContent=e.title;$('resultList').innerHTML=t.results||'';$('notice').textContent=t.notice==='Searching the web…'?'Search was interrupted. Reload to try again.':t.notice||'';$('aiCard').innerHTML=t.aiCard||$('aiCard').innerHTML;$('aiCard').style.display=t.aiVisible||'none';$('aiAnswer').classList.remove('loadingDots');if($('aiAnswer').textContent==='Creating an AI overview')$('aiAnswer').textContent='Reload to create an AI overview.'}else if(e.view==='ai'){showAIPage();$('visionQuestion').value=e.value;$('visionAnswer').textContent=t.answer==='Thinking'?'Submit your question again to continue.':t.answer||'';$('visionAnswer').classList.remove('loadingDots');$('visionSources').innerHTML=t.sources||''}else navigate(e.value,false,false);
+  $('url').value=e.value;renderTabs()
+}
+function closeTab(i){if(i!==activeTab){tabs.splice(i,1);if(i<activeTab)activeTab--;renderTabs();return}saveTab();tabs.splice(i,1);if(!tabs.length){activeTab=-1;newTab();return}activeTab=-1;switchTab(Math.min(i,tabs.length-1))}
+function renderTabs(){const host=$('openTabs');host.innerHTML='';tabs.forEach((t,i)=>{const row=document.createElement('div');row.className='browserTab'+(i===activeTab?' active':'');const select=document.createElement('button');select.className='tabSelect';select.setAttribute('role','tab');select.setAttribute('aria-selected',String(i===activeTab));select.textContent=i===activeTab?currentEntry().title:t.entry.title;select.title=select.textContent;select.onclick=()=>switchTab(i);const close=document.createElement('button');close.className='tabClose';close.textContent='×';close.setAttribute('aria-label','Close '+select.textContent);close.onclick=()=>closeTab(i);row.append(select,close);host.append(row)});const t=tabs[activeTab];$('back').disabled=!t||t.position<=0;$('forward').disabled=!t||t.position>=t.trail.length-1;$('bookmark').disabled=state.view==='home';$('bookmark').textContent='☆'}
+function recordVisit(view,value,title){const t=tabs[activeTab];if(!t)return;const entry={view,value,title};if(!restoringTrail){t.trail=t.trail.slice(0,t.position+1);t.trail.push(entry);t.position=t.trail.length-1}libraryRequest('history','POST',entry).catch(()=>{});}
+let restoringTrail=false;
+function moveBack(direction){const t=tabs[activeTab];const pos=t.position+direction;if(pos<0||pos>=t.trail.length)return;t.position=pos;restoringTrail=true;try{restoreEntry(t.trail[pos])}finally{restoringTrail=false}renderTabs()}
+let libraryQueue=Promise.resolve();
+function libraryRequest(kind,method='GET',body,id){const task=async()=>{const url='/.netlify/functions/library?kind='+kind+(id?'&id='+encodeURIComponent(id):'');if(window.jolly?.library){const data=await window.jolly.library({kind,method,body,id});if(data.error)throw new Error(data.error);return data}const response=await fetch(url,{method,credentials:'same-origin',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});if(!(response.headers.get('content-type')||'').includes('application/json'))throw new Error('Saved items cannot connect. Reload the page and try again.');const data=await response.json();if(!response.ok)throw new Error(data.error||'Saved items are unavailable.');return data};const result=libraryQueue.then(task,task);libraryQueue=result.catch(()=>{});return result}
+let libraryKind='history',libraryRevision=0;
+async function showLibrary(kind){libraryKind=kind;const revision=++libraryRevision;$('libraryTitle').textContent=kind==='history'?'History':'Bookmarks';$('clearHistory').hidden=kind!=='history';if(!$('libraryDialog').open)$('libraryDialog').showModal();const host=$('libraryItems');host.textContent='Loading…';try{const data=await libraryRequest(kind);if(revision!==libraryRevision)return;host.innerHTML='';if(!data.items.length)host.textContent=kind==='history'?'Your searches, AI questions, and opened links appear here.':'Use the star button to save a search, AI question, or webpage.';for(const item of data.items){const row=document.createElement('div');row.className='savedRow';const open=document.createElement('button');open.className='savedOpen';open.textContent=item.title;open.onclick=()=>{$('libraryDialog').close();restoreEntry(item)};const date=document.createElement('span');date.className='savedDate';date.textContent=new Date(item.createdAt).toLocaleDateString();const remove=document.createElement('button');remove.className='savedRemove';remove.textContent='Remove';remove.onclick=async()=>{remove.disabled=true;try{await libraryRequest(kind,'DELETE',null,item.id);showLibrary(kind)}catch(e){remove.disabled=false;host.textContent=e.message}};row.append(open,date,remove);host.append(row)}}catch(e){if(revision===libraryRevision)host.textContent=e.message}}
+$('addTab').onclick=newTab;$('historyBtn').onclick=()=>showLibrary('history');$('bookmarksBtn').onclick=()=>showLibrary('bookmark');$('closeLibrary').onclick=()=>$('libraryDialog').close();$('clearHistory').onclick=async()=>{try{await libraryRequest('history','DELETE');showLibrary('history')}catch(e){$('libraryItems').textContent=e.message}};
+$('views').addEventListener('click',e=>{const link=e.target.closest('a[data-navigate]');if(link){e.preventDefault();navigate(link.dataset.navigate)}});
+newTab();
 </script>
 </body>
 </html>
