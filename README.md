@@ -24,26 +24,19 @@ A desktop browser/search project built with Electron. It includes the refreshed 
 
 ### Brave Search (recommended for actual web result listings)
 
-Create a Brave Search API key at https://brave.com/search/api/ . Set it before starting Jolly Engine:
+Create a Brave Search API key at https://brave.com/search/api/ and set `BRAVE_SEARCH_API_KEY` privately in the Netlify project's environment variables with Functions scope, then redeploy. Both the website and desktop app use the hosted search endpoint. Desktop builds do not need a local API key.
 
-**Windows PowerShell**
-```powershell
-$env:BRAVE_SEARCH_API_KEY="your-brave-key"
-npm start
-```
-
-**macOS / Linux**
-```bash
-BRAVE_SEARCH_API_KEY="your-brave-key" npm start
-```
-
-Without this key, Jolly uses DuckDuckGo's public Instant Answer API, which is limited and is not a full search-results API. The interface also offers a Google Search link.
+If Brave is unconfigured, unavailable, or rate limited, Jolly shows limited DuckDuckGo instant answers and explains the limitation. The interface also offers a full Google Search link. Requests have timeouts and provider error bodies stay private.
 
 ### Shared Gemini AI
 
-All AI features use `netlify/functions/ask.mjs`, including the desktop app, which calls the hosted backend. Visitors do not enter keys or choose models. The function uses the supported `gemini-flash-latest` alias through Netlify AI Gateway by default. If that model returns 404, it tries `gemini-3.1-flash-lite`. Authentication and usage-limit errors are reported without retrying another model.
+All AI features use `netlify/functions/ask.mjs`, including the desktop app, which calls the hosted backend. Visitors do not enter keys or choose models. The function uses the pinned `gemini-2.5-flash` model through Netlify AI Gateway by default, with `gemini-2.5-flash-lite` for unavailable model routes. Thinking is disabled so the output budget is used for visible answers. If Gemini has authentication, quota, or service problems, the function tries `gpt-4.1-mini` through the OpenAI SDK and Netlify AI Gateway. Requests that fail validation are not retried. Gateway access and available account credits are required for the fallback.
 
-To use your own Gemini API key, set `GEMINI_API_KEY` privately in the Netlify project's environment variables with Functions scope, then redeploy. The Google SDK automatically uses the configured key instead of gateway credentials. Never place keys in HTML, source files, or desktop builds. No key is included in this repository.
+To use your own Gemini API key, set `GEMINI_API_KEY` privately in the Netlify project's environment variables with Functions scope, then redeploy. Never place keys in HTML, source files, or desktop builds.
+
+## Daily fun fact
+
+The home page includes a **Fun fact of the day** option with a source link and retry control. It retrieves the daily English fact from Useless Facts, independently of AI and Brave. All visitors use the provider's daily selection. The date uses UTC; an open card checks for a new day every minute and when returning to the app. No visitor data or local fact history is stored.
 
 ## Important limitations and security notes
 
@@ -56,7 +49,7 @@ To use your own Gemini API key, set `GEMINI_API_KEY` privately in the Netlify pr
 
 ## Deploying the website on Netlify
 
-The Netlify website uses `netlify/functions/search.js` for search. Commit that file with the rest of the project. In Netlify, set the publish directory to the folder containing `index.html` and ensure Netlify Functions are enabled (the default `netlify/functions` folder is detected automatically). For full web results, add `BRAVE_SEARCH_API_KEY` under **Site configuration → Environment variables**, then redeploy. Without a Brave key, the function uses DuckDuckGo Instant Answer, which may return only a limited number of results. Never put API keys directly in public source files.
+The Netlify website uses `netlify/functions/search.mjs` for search. Commit that file with the rest of the project. In Netlify, set the publish directory to the folder containing `index.html` and ensure Netlify Functions are enabled (the default `netlify/functions` folder is detected automatically). For full web results, add `BRAVE_SEARCH_API_KEY` under **Site configuration → Environment variables**, then redeploy. Without a Brave key, the function uses DuckDuckGo Instant Answer, which may return only a limited number of results. Never put API keys directly in public source files.
 
 
 ## Tabs, history, and bookmarks
@@ -66,3 +59,13 @@ The tab bar supports creating, switching, and closing Jolly tabs. Closing the fi
 History and bookmarks use Netlify Database with generated migrations. An anonymous, HttpOnly browser cookie isolates each visitor's records without signup. Saved items remain available in that browser while the cookie exists; clearing cookies removes access. The History and Bookmarks menus support opening and removing items, and history can be cleared. Records are never shared between visitors. The interface shows the 200 most recent records in each list; history retains its most recent 200 entries.
 
 If AI shows a visitor-access error, reload to refresh any site protection session. For public AI access, a project owner or developer with access can set the project's visitor access to Public in the Netlify dashboard. An HTML 401 response occurs before the Gemini function runs; changing an API key does not remove site access protection. AI now explains these errors separately from provider usage limits, timeouts, and missing server configuration.
+
+## Search categories
+
+Search results include **Jolly AI**, **All**, and **Images** tabs in blue, yellow, and red. All opens by default, Jolly AI shows an answer with the search sources, and Images loads a thumbnail grid on demand. Image links open their source pages for context and usage rights. Brave Images uses the same private server credential as web search; Wikimedia Commons provides image results when Brave is unconfigured or unavailable. Category selection and loaded images are retained when switching browser tabs. The category buttons support arrow keys, Home, and End.
+
+## Horoscopes and motion
+
+The home page includes a **Horoscopes** button that opens a Chinese zodiac dropdown. Choose one of the twelve signs to see its traditional traits and a daily reading for entertainment and reflection. Readings are composed from editorial themes, stay consistent for each sign throughout the UTC day, and change at midnight UTC. An open reading checks for the date change every minute and when returning to the app. This feature works locally without AI, external requests, or a saved profile. Escape and clicking outside close the dropdown.
+
+Pages, search categories, daily cards, and controls use subtle fade, slide, and hover transitions. Reduced-motion preferences disable these effects.

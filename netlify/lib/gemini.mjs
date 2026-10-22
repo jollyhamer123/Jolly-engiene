@@ -1,5 +1,5 @@
-// Supported Gemini models: the alias follows Google's current Flash release.
-export const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-3.1-flash-lite'];
+// Pin a stable supported release so alias changes cannot break Jolly AI.
+export const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite'];
 
 export async function generateAnswer(ai, parameters) {
   for (let index = 0; index < GEMINI_MODELS.length; index++) {
